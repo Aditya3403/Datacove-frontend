@@ -152,9 +152,9 @@ const NewFooter = () => {
           >
             Privacy Policy
           </Link>
-          <span className="cursor-pointer hover:text-white transition-colors">
+          {/* <span className="cursor-pointer hover:text-white transition-colors">
             English ▼
-          </span>
+          </span> */}
         </div>
       </div>
     </footer>
