@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
-import logo from "../assets/logo.png";
+import logo from "../assets/cove_logo.png";
 import { NavLink } from "react-router-dom";
 import useAppStore from "../store/useAppStore";
 import SignUpPage from "../Pages/SignUpPage";
@@ -28,12 +28,12 @@ const Navbar = () => {
   }, [isMenuOpen]);
 
   return (
-    <div className="fixed top-0 left-0 w-full flex justify-between items-center p-3 z-50 bg-[#060B27] home-container">
+    <div className="fixed top-0 left-0 w-full flex justify-between items-center p-3 z-50 bg-black home-container">
       {/* Logo */}
       <div className="text-[20px] font-bold cursor-pointer">
         <Link to="/">
-          <div>
-            <img src={logo} alt="" className="mt-[10px]" />
+          <div className="flex items-center gap-2">
+            <img src={logo} alt="" className="w-10 spin-logo" /> DATACOVE-AI
           </div>
         </Link>
       </div>
@@ -61,7 +61,7 @@ const Navbar = () => {
       <div
         className={`${
           isMenuOpen ? "block" : "hidden"
-        } absolute top-[50px] left-0 w-full h-screen bg-[#060B27] lg:flex lg:static lg:w-auto lg:items-center lg:gap-8 lg:bg-transparent lg:h-auto`}
+        } absolute top-[50px] left-0 w-full h-screen bg-black lg:flex lg:static lg:w-auto lg:items-center lg:gap-8 lg:bg-transparent lg:h-auto`}
       >
         <div className="flex flex-col gap-4 p-5 lg:flex-row lg:p-0 lg:gap-8 text-gray-400 text-[12px]">
           <NavLink

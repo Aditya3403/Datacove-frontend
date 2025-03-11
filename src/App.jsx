@@ -37,17 +37,22 @@ import CreateProject from "./dashboard/Projects/CreateProject";
 import SingleProject from "./dashboard/Projects/SingleProject";
 import ReportPage from "./dashboard/DashboardPages/ReportPage";
 import VerifyOtp from "./Pages/VerifyOtp";
+import Craft from "./Craft/Craft";
+import AiDashboard from "./AiDashboard/AiDashboard";
+import AiFeatures from "./AiFeatures/AiFeatures";
+import NewFooter from "./NewFooter/NewFooter";
 
 const Home = () => {
   return (
     <>
       <Hero />
-      <Privacy />
-      <Features />
-      <Testimonials />
+      <Craft />
+      <AiDashboard />
+      <AiFeatures />
+      {/* <Testimonials /> */}
       <Join />
-      <Product />
-      <Footer />
+      {/* <Product /> */}
+      <NewFooter />
     </>
   );
 };

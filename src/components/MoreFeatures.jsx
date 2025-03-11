@@ -26,6 +26,7 @@ import eclipse3 from "../assets/elipse3.png";
 import elipse4 from "../assets/elipse4.png";
 import Footer from "../Footer/Footer";
 import CountUp from "react-countup";
+import NewFooter from "../NewFooter/NewFooter";
 
 const images = [
   { src: kaspersky, alt: "Kaspersky" },
@@ -48,13 +49,13 @@ const MoreFeatures = () => {
         <div className="flex flex-col justify-center items-center lg:items-start w-full lg:w-[50%] text-center lg:text-left">
           <h1 className="font-[700] text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-[40px] p-4 bg-gradient-to-b from-[#F6F6F7] to-[#7E808F] bg-clip-text text-transparent">
             Prioritize high-value <br />
-            tasks with streamlined <br />
-            contract review
+            tasks with AI powered <br />
+            automation
           </h1>
           <p className="text-[#8F9BB7] text-sm sm:text-base font-[400] w-full lg:w-[90%] p-4">
-            Attract new business and deliver enhanced client value with Kira’s
-            machine learning technology, enabling rapid and efficient contract
-            review and analysis
+            Maximize efficiency and focus on what truly matters. DataCove AI
+            automates document analysis, contract reviews, and compliance
+            validation—saving you time and reducing risks.
           </p>
           <div className="p-4 w-full sm:w-[50%] md:w-[40%] lg:w-[30%] mx-auto lg:mx-0">
             <button className="bg-[#7214FF] pl-4 pr-4 pt-3 pb-3 rounded-2xl text-sm sm:text-[14px] w-full">
@@ -100,7 +101,7 @@ const MoreFeatures = () => {
             backgroundRepeat: "no-repeat",
           }}
         >
-          <div className="flex justify-center items-center text-center w-full lg:w-[80%] mb-6 z-50 lg:mt-[3rem]">
+          <div className="flex justify-center items-center text-center w-full lg:w-[80%] mb-6 z-40 lg:mt-[3rem]">
             <h2 className="font-[700] text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-[40px] h-auto bg-gradient-to-b from-[#F6F6F7] to-[#7E808F] bg-clip-text text-transparent">
               Unleashing AI’s Potential in Your Documents
             </h2>
@@ -114,7 +115,8 @@ const MoreFeatures = () => {
                     Business Growth
                   </h2>
                   <p className="text-sm sm:text-base text-[#8F9BB7]">
-                    Sed perspiciatis unde omnis natus error voluptatem
+                    Transform strategic planning with intelligent document
+                    insights for informed decisions.
                   </p>
                 </div>
               </div>
@@ -122,10 +124,11 @@ const MoreFeatures = () => {
                 <img src={feature_3} alt="Feature 3" className="h-10 w-10" />
                 <div>
                   <h2 className="text-base sm:text-lg font-beVietnam font-[600]">
-                    Business Growth
+                    Operational Efficiency
                   </h2>
                   <p className="text-sm sm:text-base text-[#8F9BB7]">
-                    Sed perspiciatis unde omnis natus error voluptatem
+                    Automate complex document workflows to reduce processing
+                    time by 80%.
                   </p>
                 </div>
               </div>
@@ -135,10 +138,11 @@ const MoreFeatures = () => {
                 <img src={feature_2} alt="Feature 2" className="h-10 w-10" />
                 <div>
                   <h2 className="text-base sm:text-lg font-beVietnam font-[600]">
-                    Business Growth
+                    Customer Experience
                   </h2>
                   <p className="text-sm sm:text-base text-[#8F9BB7]">
-                    Sed perspiciatis unde omnis natus error voluptatem
+                    Deliver precise, compliant documentation that builds trust
+                    and satisfaction
                   </p>
                 </div>
               </div>
@@ -146,10 +150,11 @@ const MoreFeatures = () => {
                 <img src={feature_4} alt="Feature 4" className="h-10 w-10" />
                 <div>
                   <h2 className="text-base sm:text-lg font-beVietnam font-[600]">
-                    Business Growth
+                    Risk Management
                   </h2>
                   <p className="text-sm sm:text-base text-[#8F9BB7]">
-                    Sed perspiciatis unde omnis natus error voluptatem
+                    Proactively identify compliance gaps before they become
+                    costly liabilities.
                   </p>
                 </div>
               </div>
@@ -164,10 +169,10 @@ const MoreFeatures = () => {
           {/* Project Completed */}
           <div className="flex flex-col justify-center items-center gap-3 w-full sm:w-auto">
             <h2 className="text-[28px] sm:text-[36px] font-[400] text-[#FFFFFF]">
-              <CountUp end={400} duration={3} separator="," />+
+              <CountUp end={95} duration={3} separator="," />%
             </h2>
             <p className="text-[16px] sm:text-[18px] text-[#9C9C9C] font-[400] text-center">
-              Projects Completed
+              Accuracy
             </p>
           </div>
 
@@ -179,10 +184,10 @@ const MoreFeatures = () => {
           {/* Successful Years */}
           <div className="flex flex-col justify-center items-center gap-3 w-full sm:w-auto">
             <h2 className="text-[28px] sm:text-[36px] font-[400] text-[#FFFFFF]">
-              <CountUp end={15} duration={3} />+
+              <CountUp end={75} duration={3} />%
             </h2>
             <p className="text-[16px] sm:text-[18px] text-[#9C9C9C] font-[400] text-center">
-              Successful Years
+              Time Savings
             </p>
           </div>
 
@@ -194,10 +199,10 @@ const MoreFeatures = () => {
           {/* Client Retention */}
           <div className="flex flex-col justify-center items-center gap-3 w-full sm:w-auto">
             <h2 className="text-[28px] sm:text-[36px] font-[400] text-[#FFFFFF]">
-              <CountUp end={98} duration={3} />%
+              <CountUp end={60} duration={3} />%
             </h2>
             <p className="text-[16px] sm:text-[18px] text-[#9C9C9C] font-[400] text-center">
-              Client Retention
+              Cost Reduction
             </p>
           </div>
 
@@ -209,10 +214,10 @@ const MoreFeatures = () => {
           {/* Countries */}
           <div className="flex flex-col justify-center items-center gap-3 w-full sm:w-auto">
             <h2 className="text-[28px] sm:text-[36px] font-[400] text-[#FFFFFF]">
-              <CountUp end={30} duration={3} />+
+              <CountUp end={10000} duration={3} />+
             </h2>
             <p className="text-[16px] sm:text-[18px] text-[#9C9C9C] font-[400] text-center">
-              Countries
+              Documents Processed
             </p>
           </div>
         </div>
@@ -230,21 +235,23 @@ const MoreFeatures = () => {
       >
         <div className="w-full lg:w-[50%] mt-8 lg:mt-12 flex flex-col gap-6">
           <h2 className="font-[700] text-2xl sm:text-3xl md:text-4xl lg:text-[32px] text-center lg:text-left mb-6 bg-gradient-to-b from-[#F6F6F7] to-[#7E808F] bg-clip-text text-transparent">
-            Providing enhanced features across <br /> variety of industries
+            Why Leading Organizations Choose DataCove AI
           </h2>
           <p className="text-[14px] sm:text-[16px] md:text-[18px] text-[#8F9BB7] text-center lg:text-left lg:w-[70%]">
-            Lorem ipsum dolor sit amet consectetur. Sit non diam justo fames.
-            Blandit et purus mollis convallis malesuada egestas risus quam enim.
-            Semper lorem rhoncus et felis tristique tellus volutpat orci. Dui
-            elementum a sed.
+            DataCove AI delivers enterprise-grade document intelligence that
+            transforms how organizations process, analyze, and extract value
+            from their documentation. Our platform combines cutting-edge
+            artificial intelligence with industry-specific expertise to deliver
+            unprecedented efficiency, accuracy, and strategic insights across
+            your document workflows.
           </p>
           <div className="grid grid-cols-3 gap-4">
             {[
-              "Law Firms",
-              "IT Consulting",
-              "Finances",
-              "Marketing",
-              "Healthcare",
+              "Legal",
+              "Finance",
+              "Healthcare ",
+              "Supply Chain ",
+              "Recruitment",
             ].map((feature, index) => (
               <div
                 key={index}
@@ -267,9 +274,12 @@ const MoreFeatures = () => {
           Exclusive Features
         </h2>
         <p className="text-[12px] sm:text-[14px] md:text-[16px] text-[#8F9BB7] font-[400]">
-          Rmet facilisi arcu odio urna aenean erat. Pellentesque in vitae
-          lobortis orci tincidunt <br className="hidden md:block" />
-          facilisis. Pulvinar lacus ultricies turpis urna sapien.
+          DataCove AI's proprietary technology combines contextual understanding
+          with industry-specific intelligence to deliver results that surpass
+          traditional document processing solutions.
+          <br className="hidden md:block" /> Our platform integrates seamlessly
+          with your existing workflows while providing unprecedented visibility
+          into your document ecosystem <br className="hidden md:block" />
         </p>
       </div>
       <div
@@ -280,8 +290,8 @@ const MoreFeatures = () => {
         }}
         className="w-full relative -top-4 h-[90vh] flex flex-col justify-center mt-20"
       >
-        <div className="flex flex-col justify-center items-center px-4 md:px-8 lg:px-12">
-          <div className="flex flex-col lg:flex-row justify-center items-center w-full md:gap-8 lg:gap-8">
+        <div className="flex flex-col justify-center items-center px-4 mt-9 md:px-8 lg:px-12">
+          <div className="flex flex-col lg:flex-row justify-center items-center w-full md:gap-10 lg:gap-10">
             <div className="flex justify-center lg:w-[40%]">
               <img
                 src={ft}
@@ -290,7 +300,7 @@ const MoreFeatures = () => {
               />
             </div>
             <div>
-              <div className="w-auto gap-10 flex flex-col p-2">
+              <div className="w-auto gap-16 flex flex-col p-2">
                 <div className="flex flex-row md:flex-row gap-4 md:gap-6 border rounded-md p-2 md:pl-6 md:pr-6 md:pt-3 md:pb-3 bg-[#FFFFFF0D] bg-opacity-5">
                   <div className="flex justify-center items-center align-middle">
                     <img
@@ -301,10 +311,11 @@ const MoreFeatures = () => {
                   </div>
                   <div className="flex flex-col justify-center gap-1">
                     <h3 className="md:text-[27px] lg:text-[27px] text-[20px] font-[600]">
-                      Law Firms
+                      Agentic Workflows
                     </h3>
                     <p className="text-[12px] md:text-[14px] lg:text-[16px] text-[#67687A] font-[400]">
-                      Sed perspiciatis unde omnis natus error voluptatem
+                      Customize AI processing pathways with domain-specific
+                      agents tailored to your industry requirements
                     </p>
                   </div>
                   <div className="flex justify-end mt-2 items-center">
@@ -327,10 +338,11 @@ const MoreFeatures = () => {
                   </div>
                   <div className="flex flex-col justify-center gap-1">
                     <h3 className="md:text-[27px] lg:text-[27px] text-[20px] font-[600]">
-                      IT Consulting
+                      Real-Time Streaming
                     </h3>
                     <p className="text-[12px] md:text-[14px] lg:text-[16px] text-[#67687A] font-[400]">
-                      Sed perspiciatis unde omnis natus error voluptatem
+                      Experience progressive AI insights as they develop,
+                      enabling faster decision-making without delays
                     </p>
                   </div>
                   <div className="flex justify-center align-middle mt-2  items-center">
@@ -353,10 +365,11 @@ const MoreFeatures = () => {
                   </div>
                   <div className="flex flex-col justify-center gap-1">
                     <h3 className="md:text-[27px] lg:text-[27px] text-[20px] font-[600]">
-                      Finances
+                      Embedded Security
                     </h3>
                     <p className="text-[12px] md:text-[14px] lg:text-[16px] text-[#67687A] font-[400]">
-                      Sed perspiciatis unde omnis natus error voluptatem
+                      Maintain compliance with automatic PII redaction and
+                      AES-256 encryption at every processing stage.
                     </p>
                   </div>
                   <div className="flex justify-center align-middle mt-2  items-center">
@@ -373,10 +386,11 @@ const MoreFeatures = () => {
                   </div>
                   <div className="flex flex-col justify-center gap-1">
                     <h3 className="md:text-[27px] lg:text-[27px] text-[20px] font-[600]">
-                      Business Growth
+                      Cross-Document Intelligence
                     </h3>
                     <p className="text-[12px] md:text-[14px] lg:text-[16px] text-[#67687A] font-[400]">
-                      Sed perspiciatis unde omnis natus error voluptatem
+                      Connect insights across multiple documents to identify
+                      patterns and relationships automatically
                     </p>
                   </div>
                   <div className="flex justify-center mt-2 items-center">
@@ -398,10 +412,11 @@ const MoreFeatures = () => {
               </div>
               <div className="flex flex-col justify-center gap-1">
                 <h3 className="md:text-[27px] lg:text-[27px] text-[20px] font-[600]">
-                  Insurance
+                  Adaptive Learning
                 </h3>
                 <p className="text-[12px] md:text-[14px] lg:text-[16px] text-[#67687A] font-[400]">
-                  Sed perspiciatis unde omnis natus error voluptatem
+                  Our system continuously improves based on your feedback,
+                  becoming more aligned with your needs
                 </p>
               </div>
               <div className="flex justify-center mt-2 items-center">
@@ -419,8 +434,8 @@ const MoreFeatures = () => {
           </div>
         </div>
       </div>
-      <div className="home-container mt-[10rem] md:mt-0 lg:mt-0 xl:mt-0">
-        <Footer />
+      <div className="home-container mt-[14rem] md:mt-0 lg:mt-0 xl:mt-0">
+        <NewFooter />
       </div>
     </div>
   );

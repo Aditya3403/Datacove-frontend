@@ -6,7 +6,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-[#060B27] text-white font-poppins;
+  @apply bg-black text-white font-poppins;
 }
 
 .border-bottom {
@@ -189,6 +189,9 @@ body {
 .jodit-container .jodit-workplace {
   background-color: #060b27 !important;
   color: white !important;
+}
+.spin-logo {
+  animation: spin 2s linear infinite;
 }
 
 @keyframes spin {
