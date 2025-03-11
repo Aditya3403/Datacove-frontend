@@ -296,7 +296,7 @@ const MoreFeatures = () => {
               <img
                 src={ft}
                 alt=""
-                className="w-[16rem] h-[16rem] md:w-[22rem] md:h-[22rem] lg:w-[28rem] lg:h-[28rem] ml-0 lg:ml-[2rem] mt-28 lg:mt-[5rem]"
+                className="w-[16rem] h-[16rem] md:w-[22rem] md:h-[22rem] lg:w-[28rem] lg:h-[28rem] ml-0 lg:ml-[2rem] mt-[14rem] lg:mt-[5rem]"
               />
             </div>
             <div>

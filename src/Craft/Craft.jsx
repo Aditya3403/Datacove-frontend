@@ -21,11 +21,9 @@ const Craft = () => {
       <div className="relative z-10 flex flex-col md:flex-row gap-8 md:gap-6 lg:gap-12 items-center justify-between max-w-[1500px] p-4">
         {/* Left Content */}
         <div className="w-full md:w-1/2 space-y-6 md:space-y-6 lg:space-y-8 p-0 sm:p-4">
-          <h3 className="text-[1.5rem] sm:text-[2rem] md:text-[2.2rem] lg:text-[2.5rem] xl:text-[3rem] leading-tight lg:leading-[1.1]">
-            <span className="text-white text-sm md:text-[1.5rem] lg:text-[3rem]">
-              Agentic
-            </span>{" "}
-            <span className="text-white/50 text-[1rem]  md:text-[1.1rem] lg:text-[2rem] ">
+          <h3 className="text-[2rem] md:text-[2.5rem] lg:text-[3rem] leading-tight">
+            <span className="text-white">Agentic </span>{" "}
+            <span className="text-white/50">
               Document Workflows for Every Industry
             </span>
           </h3>
