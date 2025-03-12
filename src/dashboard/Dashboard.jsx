@@ -9,14 +9,15 @@ import { Outlet } from "react-router-dom";
 const Dashboard = () => {
   return (
     <div className="flex min-h-screen bg-[#060b27]">
-      {/* Fixed Sidebar */}
-      <SideBar />
-
-      {/* Main Content Area */}
-      <div className="flex-1 ml-[23rem] mr-[2rem] gap-8 flex flex-col my-[1rem]  bg-[#060b27]">
+      {/* <div className="flex-1 ml-[23rem] mr-[2rem] gap-8 flex flex-col my-[1rem]  bg-[#060b27]">
         <NavBar />
         <Outlet />
-      </div>
+      </div> */}
+      {/* Fixed Sidebar */}
+      {/* <SideBar /> */}
+
+      {/* Main Content Area */}
+      
     </div>
   );
 };

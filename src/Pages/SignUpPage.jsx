@@ -3,6 +3,8 @@ import { SquareX } from "lucide-react";
 import useAppStore from "../store/useAppStore";
 import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 const SignUpPage = () => {
   const { closeSignUp } = useAppStore();
@@ -131,43 +133,45 @@ const SignUpPage = () => {
           </h2>
 
           <form className="space-y-4" onSubmit={handleSubmit}>
-            {/* Individual Form Fields */}
-            {formData.userType === "individual" && (
-              <>
-                <input
-                  type="text"
-                  placeholder="Your Name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full p-3 border border-violet-400/20 rounded-xl bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-violet-400/40 focus:ring-1 focus:ring-violet-400/40 transition-all duration-200"
-                />
-                <input
-                  type="email"
-                  placeholder="Email Address"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full p-3 border border-violet-400/20 rounded-xl bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-violet-400/40 focus:ring-1 focus:ring-violet-400/40 transition-all duration-200"
-                />
-                <input
-                  type="tel"
-                  placeholder="Phone Number"
-                  name="phoneNumber"
+          {formData.userType === "individual" && (
+            <>
+              <input
+                type="text"
+                placeholder="Your Name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full p-3 border border-violet-400/20 rounded-xl bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-violet-400/40 focus:ring-1 focus:ring-violet-400/40 transition-all duration-200"
+              />
+              <input
+                type="email"
+                placeholder="Email Address"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full p-3 border border-violet-400/20 rounded-xl bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-violet-400/40 focus:ring-1 focus:ring-violet-400/40 transition-all duration-200"
+              />
+              <div className="relative w-full">
+                <PhoneInput
+                  country={'ca'}
                   value={formData.phoneNumber}
-                  onChange={handleChange}
-                  className="w-full p-3 border border-violet-400/20 rounded-xl bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-violet-400/40 focus:ring-1 focus:ring-violet-400/40 transition-all duration-200"
+                  onChange={(phone) => setFormData({ ...formData, phoneNumber: phone })}
+                  inputClass="!w-full !h-[52px] !pl-14 !pr-3 !border !border-violet-400/20 !rounded-xl !bg-white/5 !text-white !placeholder-gray-400 !focus:outline-none !focus:border-violet-400/40 !focus:ring-1 !focus:ring-violet-400/40 !transition-all !duration-200"
+                  containerClass="!w-full"
+                  buttonClass="!bg-transparent !border-none !absolute !left-3 !top-1/2 !transform !-translate-y-1/2 !scale-125"
+                  dropdownClass="!bg-black !border !border-violet-400/20 !rounded-xl !text-white !shadow-lg !max-h-60 !overflow-y-auto !scrollbar-none"
                 />
-                <input
-                  type="password"
-                  placeholder="Password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="w-full p-3 border border-violet-400/20 rounded-xl bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-violet-400/40 focus:ring-1 focus:ring-violet-400/40 transition-all duration-200"
-                />
-              </>
-            )}
+              </div>
+              <input
+                type="password"
+                placeholder="Password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full p-3 border border-violet-400/20 rounded-xl bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-violet-400/40 focus:ring-1 focus:ring-violet-400/40 transition-all duration-200"
+              />
+            </>
+          )}
 
             {/* Company Form Fields */}
             {formData.userType === "company" && (
@@ -196,14 +200,17 @@ const SignUpPage = () => {
                   onChange={handleChange}
                   className="w-full p-3 border border-violet-400/20 rounded-xl bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-violet-400/40 focus:ring-1 focus:ring-violet-400/40 transition-all duration-200"
                 />
-                <input
-                  type="tel"
-                  placeholder="Phone Number"
-                  name="phoneNumber"
-                  value={formData.phoneNumber}
-                  onChange={handleChange}
-                  className="w-full p-3 border border-violet-400/20 rounded-xl bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-violet-400/40 focus:ring-1 focus:ring-violet-400/40 transition-all duration-200"
-                />
+                <div className="relative w-full">
+                  <PhoneInput
+                    country={'ca'}
+                    value={formData.phoneNumber}
+                    onChange={(phone) => setFormData({ ...formData, phoneNumber: phone })}
+                    inputClass="!w-full !h-[52px] !pl-14 !pr-3 !border !border-violet-400/20 !rounded-xl !bg-white/5 !text-white !placeholder-gray-400 !focus:outline-none !focus:border-violet-400/40 !focus:ring-1 !focus:ring-violet-400/40 !transition-all !duration-200"
+                    containerClass="!w-full"
+                    buttonClass="!bg-transparent !border-none !absolute !left-3 !top-1/2 !transform !-translate-y-1/2 !scale-125"
+                    dropdownClass="!bg-black !border !border-violet-400/20 !rounded-xl !text-white !shadow-lg !max-h-60 !overflow-y-auto !scrollbar-none"
+                  />
+                </div>
                 <input
                   type="password"
                   placeholder="Password"

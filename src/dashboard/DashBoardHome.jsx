@@ -15,8 +15,10 @@ import { Link } from "react-router-dom";
 
 const DashBoardHome = () => {
   const { user, saveNote, sendFile, clientFile } = useAppStore();
+  // For single file upload, we still keep an array but it will contain at most one file.
   const [uploadedFiles, setUploadedFiles] = useState([]);
-  // console.log("USER", user);
+  const [fileDescription, setFileDescription] = useState(""); // New state for file description
+
   const [noteData, setNoteData] = useState({
     NoteTitle: "",
     NoteContent: "",
@@ -33,29 +35,24 @@ const DashBoardHome = () => {
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     ];
 
-    const files = Array.from(e.target.files);
-    const invalidFiles = files.filter(
-      (file) => !allowedTypes.includes(file.type)
-    );
+    const file = e.target.files[0]; // Only allow a single file
+    if (!file) return;
 
-    if (invalidFiles.length > 0) {
+    if (!allowedTypes.includes(file.type)) {
       alert("Only PDF, JPG, PNG, TXT, and Word files are allowed.");
       return;
     }
-
-    if (files.length + uploadedFiles.length <= 50) {
-      setUploadedFiles((prevFiles) => [...prevFiles, ...files]);
-    } else {
-      alert("You can only upload up to 50 files.");
-    }
+    
+    // Directly set the file (replace any existing file)
+    setUploadedFiles([file]);
   };
-
-  // console.log("File", uploadedFiles);
 
   const removeFile = (fileName) => {
     setUploadedFiles((prevFiles) =>
       prevFiles.filter((file) => file.name !== fileName)
     );
+    // Clear the description when file is removed
+    setFileDescription("");
   };
 
   const handleEditorChange = (e) => {
@@ -92,33 +89,36 @@ const DashBoardHome = () => {
 
   const handleUpload = async () => {
     if (uploadedFiles.length === 0) {
-      console.error("No files selected.");
+      console.error("No file selected.");
       return;
     }
 
-    // Create a user credential object to send all files
+    // Create a user credential object to send the single file with description
     const credential = {
-      files: uploadedFiles, // Send the whole array of files
+      file: uploadedFiles[0], // Only the single file
+      description: fileDescription, // Attached description for the file
       userId: user._id,
       forClient,
     };
 
-    //credential for client acc
+    // Credential for client account
     const clientCredential = {
-      files: uploadedFiles,
+      file: uploadedFiles[0],
+      description: fileDescription,
       userId: user._id,
     };
 
     if (user.userType === "client") {
       clientFile(clientCredential);
     } else {
-      sendFile(credential); // Call the function to send all files
+      sendFile(credential);
     }
   };
+
   return (
     <>
       <div className="flex gap-6 h-auto">
-        {/* Left Section */}
+
         <div className="flex-1 p-2">
           <div className="space-y-6 flex flex-col justify-between h-full">
             <div className="flex items-center gap-3">
@@ -160,7 +160,7 @@ const DashBoardHome = () => {
                     alt={item.title}
                     className="w-12 h-12 text-white"
                   />{" "}
-                  {/* Use <img> tag to display the icon */}
+
                   <p className="bg-gradient-to-b from-[#F6F6F7] to-[#7E808F] bg-clip-text text-transparent font-medium">
                     {item.title}
                   </p>
@@ -170,7 +170,6 @@ const DashBoardHome = () => {
           </div>
         </div>
 
-        {/* Right Section - Ask Now */}
         <div className="w-[28rem] h-full justify-center my-auto bottom-0">
           <form
             className="bg-[#1A114A] p-4 rounded-2xl h-full"
@@ -187,7 +186,7 @@ const DashBoardHome = () => {
                   placeholder="Note Title"
                   name="NoteTitle"
                   value={noteData.NoteTitle}
-                  onChange={handleTitleChange} // Handle the change event
+                  onChange={handleTitleChange}
                   className="bg-inherit w-full border border-white/40 p-2 text-sm text-white rounded-md focus:outline-none"
                 />
               </h3>
@@ -212,7 +211,7 @@ const DashBoardHome = () => {
           </form>
         </div>
       </div>
-      {/* Upload Document Section */}
+
       {user.userType !== "client" && (
         <div className="flex items-center space-x-3">
           <span className="text-white text-md">For Client:</span>
@@ -228,7 +227,6 @@ const DashBoardHome = () => {
         </div>
       )}
 
-      {/* Upload Section */}
       <div className="flex space-x-5">
         <div className="bg-[#0B213F] p-3 rounded-[1rem] flex justify-center items-center gap-2 border-dashed border-white border-2 space-y-5 h-[26rem] w-full cursor-pointer">
           <label className="w-full h-full">
@@ -236,56 +234,59 @@ const DashBoardHome = () => {
               type="file"
               className="hidden"
               onChange={handleFileUpload}
-              multiple
             />
             <div className="bg-[#060B27] w-full flex justify-center items-center flex-col gap-2 rounded-[1rem] h-full">
               <FileUp size={70} />
               <div className="text-lg font-[500] font-beVietnam">
-                Upload up to 50 documents by drag and drop
+                Drag and Drop a file
               </div>
             </div>
           </label>
 
           {/* File Preview Section */}
           {uploadedFiles.length > 0 && (
-            <div className="bg-[#0B213F] p-4 flex flex-col justify-between h-full rounded-[1rem] w-[40%]  max-h-[400px]">
-              <div className="flex flex-col gap-2 h-full">
-                <h3 className="text-white text-md mb-3">Document Upload</h3>
-                {/* document div */}
-                <div className="space-y-2 overflow-y-auto h-auto">
-                  {uploadedFiles.map((file, index) => (
-                    <div
-                      key={index}
-                      className="bg-[#060B27] p-2 rounded-[10px] flex items-center   justify-between px-[1rem] py-[10px]"
-                    >
-                      <div className="flex items-center space-x-3">
-                        <FileUp size={24} />
-                        <div className="flex flex-col gap-1">
-                          <p className="text-white text-sm">{file.name}</p>
-                          <p className="text-gray-400 text-[12px]">
-                            {(file.size / (1024 * 1024)).toFixed(2)} MB
-                          </p>
-                        </div>
-                      </div>
-                      <button onClick={() => removeFile(file.name)}>
-                        <X size={20} className="text-white cursor-pointer" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-
-                <button
-                  onClick={handleUpload}
-                  className="p-2 mt-2 border border-white text-white bg-[#060B27] border-opacity-40 rounded-md"
+            <div className="bg-[#0B213F] p-4 flex flex-col justify-between h-full rounded-[1rem] w-[40%] max-h-[400px] relative">
+              {uploadedFiles.map((file, index) => (
+                <div
+                  key={index}
+                  className="relative bg-[#060B27] p-2 rounded-[10px] flex flex-col gap-2 justify-between px-[1rem] py-[10px]"
                 >
-                  Upload
-                </button>
-              </div>
+                  <button
+                    onClick={() => removeFile(file.name)}
+                    className="absolute top-2 right-2"
+                  >
+                    <X size={20} className="text-white cursor-pointer" />
+                  </button>
+                  <div className="flex items-center space-x-3">
+                    <FileUp size={24} />
+                    <div className="flex flex-col gap-1">
+                      <p className="text-white text-sm">{file.name}</p>
+                      <p className="text-gray-400 text-[12px]">
+                        {(file.size / (1024 * 1024)).toFixed(2)} MB
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-1 mt-2">
+                    <textarea
+                      placeholder="Enter description for this file"
+                      value={fileDescription}
+                      onChange={(e) => setFileDescription(e.target.value)}
+                      className="w-full h-24 bg-inherit border border-white/40 p-2 text-sm text-white rounded-md focus:outline-none"
+                    />
+                  </div>
+                </div>
+              ))}
+              <button
+                onClick={handleUpload}
+                className="p-2 mt-2 border border-white text-white bg-[#060B27] border-opacity-40 rounded-md"
+              >
+                Upload
+              </button>
             </div>
           )}
         </div>
       </div>
-      {/* Ask a question with jurisdiction */}
+
       <div className="h-auto bg-black flex justify-between items-center p-4 border gap-2 border-white/20 mt-[1rem] rounded-md">
         <div className="w-[60%]">
           <p className="text-lg text-white/60">Ask a question</p>
@@ -308,6 +309,8 @@ const DashBoardHome = () => {
 };
 
 export default DashBoardHome;
+
+
 
 {
   /* <Editor

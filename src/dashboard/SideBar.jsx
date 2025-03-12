@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import logo from "../assets/logo.png";
 import { Plus, X } from "lucide-react";
 import { Search } from "lucide-react";
-
 import useAppStore from "../store/useAppStore";
 import { LogOut } from "lucide-react";
 import { ChevronDown } from "lucide-react";
@@ -13,18 +12,26 @@ import vector from "../assets/Vector.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { MailPlus } from "lucide-react";
 import { FileClock } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { NotebookPen } from "lucide-react";
 import { FolderOpenDot } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
-
+import { NavLink } from "react-router-dom";
 const API_PRODUCTION_URL = "http://localhost:5000";
 
-const SideBar = () => {
+const SideBar = ({ username }) => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [isHistoryOpen, setHistoryOpen] = useState(false);
   const [email, setEmail] = useState("");
+  const location = useLocation();
+  
+  // Determine which section is active based on the URL path
+  const currentPath = location.pathname;
+  const isWorkflows = currentPath.includes('/workflows');
+  const isReports = currentPath.includes('/reports');
+  const isAnalytics = currentPath.includes('/analytics');
+  const isSettings = currentPath.includes('/settings');
 
   const { user, logout } = useAppStore();
 
@@ -38,8 +45,8 @@ const SideBar = () => {
     { title: "Practical Guidance", icon: edit },
     { title: "Brief Analysis", icon: research },
   ];
+  
   const handleToggle = (index) => {
-    // Toggle the active state between null and the clicked index
     setActiveIndex(activeIndex === index ? null : index);
   };
 
@@ -57,98 +64,200 @@ const SideBar = () => {
     try {
       const response = await axios.post(
         `${API_PRODUCTION_URL}/api/v1/dashboard/invite-client`,
-        {
-          userId: user._id,
-          email: email,
-        },
+        { userId: user._id, email: email },
         { withCredentials: true }
       );
 
-      // Display the message from the backend response
       toast.success(response.data.message);
-      setEmail(""); // Clear the input field
+      setEmail("");
     } catch (error) {
-      if (error.response) {
-        // Handle different status codes and show the appropriate message
-        toast.error(error.response.data.message || "Something went wrong.");
-      } else {
-        // Handle cases where there's no response from the server
-        toast.error("Network error or server is unreachable.");
-      }
+      toast.error(error.response?.data?.message || "Something went wrong.");
+    }
+  };
+
+  // Render middle section based on active link
+  const renderMiddleSection = () => {
+    if (isSettings) {
+      return null;
+    } else if (isWorkflows) {
+      return (
+        <div className="mt-8">
+          <h3 className="text-lg font-medium mb-3">Status</h3>
+          <div className="space-y-1">
+            <NavLink
+              to={`/dashboard/${user.name}/workflows`}
+              className={({ isActive }) => isActive ? "block p-2 bg-[#6c21a8] rounded" : "block p-2 hover:bg-indigo-700 rounded"}
+            >
+              All Workflows
+            </NavLink>
+            <NavLink
+              to={`/dashboard/${user.name}/workflows/active`}
+              className={({ isActive }) => isActive ? "block p-2 bg-[#6c21a8] rounded" : "block p-2 hover:bg-indigo-700 rounded"}
+            >
+              Active
+            </NavLink>
+            <NavLink
+              to={`/dashboard/${user.name}/workflows/inactive`}
+              className={({ isActive }) => isActive ? "block p-2 bg-[#6c21a8] rounded" : "block p-2 hover:bg-indigo-700 rounded"}
+            >
+              Inactive
+            </NavLink>
+            <NavLink
+              to={`/dashboard/${user.name}/workflows/drafts`}
+              className={({ isActive }) => isActive ? "block p-2 bg-[#6c21a8] rounded" : "block p-2 hover:bg-indigo-700 rounded"}
+            >
+              Drafts
+            </NavLink>
+          </div>
+        </div>
+      );
+    } else if (isReports) {
+      return (
+        <div className="mt-8">
+          <h3 className="text-lg font-medium mb-3">Categories</h3>
+          <div className="space-y-1">
+            <NavLink
+              to={`/dashboard/${user.name}/reports`}
+              end
+              className={({ isActive }) => isActive ? "block p-2 bg-[#6c21a8] rounded" : "block p-2 hover:bg-indigo-700 rounded"}
+            >
+              All Categories
+            </NavLink>
+            <NavLink
+              to={`/dashboard/${user.name}/reports/legal`}
+              className={({ isActive }) => isActive ? "block p-2 bg-[#6c21a8] rounded" : "block p-2 hover:bg-indigo-700 rounded"}
+            >
+              Legal
+            </NavLink>
+            <NavLink
+              to={`/dashboard/${user.name}/reports/recruitment`}
+              className={({ isActive }) => isActive ? "block p-2 bg-[#6c21a8] rounded" : "block p-2 hover:bg-indigo-700 rounded"}
+            >
+              Recruitment
+            </NavLink>
+            <NavLink
+              to={`/dashboard/${user.name}/reports/compliance`}
+              className={({ isActive }) => isActive ? "block p-2 bgbg-[#6c21a8] rounded" : "block p-2 hover:bg-indigo-700 rounded"}
+            >
+              Compliance
+            </NavLink>
+            <NavLink
+              to={`/dashboard/${user.name}/reports/marketing`}
+              className={({ isActive }) => isActive ? "block p-2 bg-[#6c21a8] rounded" : "block p-2 hover:bg-indigo-700 rounded"}
+            >
+              Marketing
+            </NavLink>
+          </div>
+        </div>
+      );
+    } else if (isAnalytics) {
+      return (
+        <div className="mt-8">
+          <h3 className="text-lg font-medium mb-3">Workflow Filter</h3>
+          <div className="space-y-1">
+            <NavLink
+              to={`/dashboard/${user.name}/analytics`}
+              end
+              className={({ isActive }) => isActive ? "block p-2 bg-[#6c21a8] rounded" : "block p-2 hover:bg-indigo-700 rounded"}
+            >
+              All Workflows
+            </NavLink>
+            <NavLink
+              to={`/dashboard/${user.name}/reports/legalcontracts`}
+              className={({ isActive }) => isActive ? "block p-2 bg-[#6c21a8]rounded" : "block p-2 hover:bg-indigo-700 rounded"}
+            >
+              Legal Contracts
+            </NavLink>
+            <NavLink
+              to={`/dashboard/${user.name}/reports/resumescreening`}
+              className={({ isActive }) => isActive ? "block p-2 bg-[#6c21a8] rounded" : "block p-2 hover:bg-indigo-700 rounded"}
+            >
+              Resume Screening
+            </NavLink>
+            <NavLink
+              to={`/dashboard/${user.name}/reports/compliancecheck`}
+              className={({ isActive }) => isActive ? "block p-2 bg-[#6c21a8] rounded" : "block p-2 hover:bg-indigo-700 rounded"}
+            >
+              Compliance Check
+            </NavLink>
+            <NavLink
+              to={`/dashboard/${user.name}/reports/policyanalysis`}
+              className={({ isActive }) => isActive ? "block p-2 bg-[#6c21a8] rounded" : "block p-2 hover:bg-indigo-700 rounded"}
+            >
+              Policy Analysis
+            </NavLink>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className="mt-8">
+          <h3 className="text-lg font-medium mb-3">Quick Stats</h3>
+          <div className="space-y-2">
+            <div className="p-3 bg-indigo-900 rounded-md">
+              <p className="text-indigo-300 text-sm">Documents Processed</p>
+              <p className="text-xl font-bold">1,243</p>
+              <p className="text-xs text-green-400">↑ 8.2% from previous period</p>
+            </div>
+            <div className="p-3 bg-indigo-900 rounded-md">
+              <p className="text-indigo-300 text-sm">Active Workflows</p>
+              <p className="text-xl font-bold">5</p>
+            </div>
+            <div className="p-3 bg-indigo-900 rounded-md">
+              <p className="text-indigo-300 text-sm">High Risk Documents</p>
+              <p className="text-xl font-bold">142</p>
+              <p className="text-xs text-red-400">↑ 3.6% from previous period</p>
+            </div>
+          </div>
+        </div>
+      );
     }
   };
 
   return (
-    <div className="w-[22rem] fixed top-0 left-0 h-screen bg-[#1A114A] p-4 flex flex-col">
-      {/* Logo */}
-      <div className="bg-gradient-to-b from-[#F6F6F7] to-[#7E808F] bg-clip-text text-transparent font-bold text-2xl mb-8">
-        <Link to={`/dashboard/${user.name}`}>DATACOVE AI</Link>
-      </div>
-
-      {/* Action Buttons */}
-      <div className="space-y-3 mb-8">
-        <Link>
-          <button className="w-full flex items-center gap-2 text-white/80 hover:text-white p-3 rounded-lg hover:bg-white/5 transition-colors">
-            <Plus className="w-5 h-5" /> New Chat
-          </button>
-        </Link>
-        <div className="flex items-center gap-2 text-white/80 border border-white/10 p-3 rounded-lg">
-          <Search className="w-5 h-5" /> Search
-        </div>
-      </div>
-
-      {/* Menu Items */}
-      <div className="flex-1 space-y-2">
-        {items.map((item, index) => (
-          <div
-            key={index}
-            className={`flex items-center justify-between text-white/80 p-2 rounded-lg cursor-pointer transition-colors ${
-              activeIndex === index
-                ? "bg-gradient-to-r from-[#43187D] to-[#1D0D56]"
-                : "hover:bg-gradient-to-r hover:from-[#43187D] hover:to-[#1D0D56]"
-            }`}
-            onClick={() => handleToggle(index)}
+    <div className="h-full w-full bg-[#1A114A] flex flex-col overflow-hidden border-r border-indigo-800 p-2">
+      {/* Scrollable Sidebar Content */}
+      <div className="flex flex-col h-full w-full p-2">
+        <nav className="space-y-1">
+          <NavLink
+            to={`/dashboard/${user.name}`}
+            className={({ isActive }) => isActive ? "block p-2 bg-blue-600 rounded" : "block p-2 rounded"}
           >
-            <div className="flex flex-col w-full justify-between">
-              <div className="flex items-center gap-2 w-full justify-between p-2">
-                <div className="flex items-center gap-4 ">
-                  <img src={item.icon} alt={item.title} className="w-8 h-8" />
-                  <span className="text-sm">{item.title}</span>
-                </div>
+            Dashboard
+          </NavLink>
 
-                <motion.span
-                  animate={{ rotate: activeIndex === index ? 180 : 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {activeIndex === index ? (
-                    <X onClick={() => handleToggle(index)} />
-                  ) : (
-                    <ChevronDown onClick={() => handleToggle(index)} />
-                  )}
-                </motion.span>
-              </div>
-              <AnimatePresence>
-                {activeIndex === index && item.data && (
-                  <motion.div
-                    className="pl-6 space-y-3 flex flex-col mt-4 text-white/70 overflow-hidden"
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                  >
-                    {item.data.map((dataItem, idx) => (
-                      <p key={idx} className="text-[13px] ml-4 hover:underline">
-                        {dataItem}
-                      </p>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
-        ))}
+          <NavLink
+            to={`/dashboard/${user.name}/workflows`}
+            className={({ isActive }) => isActive ? "block p-2 bg-blue-600 rounded" : "block p-2 hover:bg-blue-500 rounded"}
+          >
+            My Workflows
+          </NavLink>
+
+          <NavLink
+            to={`/dashboard/${user.name}/reports`}
+            className={({ isActive }) => isActive ? "block p-2 bg-blue-600 rounded" : "block p-2 hover:bg-blue-500 rounded"}
+          >
+            Recent Reports
+          </NavLink>
+
+          <NavLink
+            to={`/dashboard/${user.name}/analytics`}
+            className={({ isActive }) => isActive ? "block p-2 bg-blue-600 rounded" : "block p-2 hover:bg-blue-500 rounded"}
+          >
+            Analytics
+          </NavLink>
+
+          <NavLink
+            to={`/dashboard/${user.name}/settings`}
+            className={({ isActive }) => isActive ? "block p-2 bg-blue-600 rounded" : "block p-2 hover:bg-blue-500 rounded"}
+          >
+            Settings
+          </NavLink>
+        </nav>
+
+        {/* Dynamic Middle Section */}
+        {renderMiddleSection()}
       </div>
-
       {/* invite client */}
       {user && user.userType !== "client" && (
         <div className="mt-6 flex items-center gap-2 mb-4">
@@ -243,6 +352,13 @@ const SideBar = () => {
       >
         <LogOut className="w-5 h-5 text-red-500" /> Log Out
       </button>
+      {/* User Info (Fixed at Bottom) */}
+      <div className="p-4 flex items-center bg-[#1A114A]">
+        <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center mr-2">
+          <span>LC</span>
+        </div>
+        <span>Louis Carter</span>
+      </div>
     </div>
   );
 };

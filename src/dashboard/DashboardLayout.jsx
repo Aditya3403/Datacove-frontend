@@ -4,16 +4,18 @@ import NavBar from "./NavBar";
 
 const DashboardLayout = () => {
   return (
-    <div className="flex min-h-screen bg-[#0A0B1C]">
-      {/* Sidebar should always be visible */}
-      <SideBar />
-
+    <div className="flex flex-col h-full bg-[#0A0B1C]">
+      <NavBar />
       {/* Main Content Area */}
-      <div className="flex-1 ml-[23rem] mr-[2rem] gap-8 flex flex-col my-[1rem] bg-[] ">
-        <NavBar />
-
-        {/* Outlet will dynamically render the respective dashboard page */}
-        <Outlet />
+      <div className="flex flex-row h-full">
+        {/* Sidebar with fixed width */}
+        <div className="w-64 flex-shrink-0">
+          <SideBar/>
+        </div>
+        {/* Main Content with proper spacing */}
+        <div className="h-full w-full">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

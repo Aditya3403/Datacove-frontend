@@ -22,6 +22,11 @@ import Dashboard from "./dashboard/Dashboard";
 import Faq from "./Pages/Faq";
 import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import TermsAndCondition from "./Pages/TermsAndCondition";
+import DashboardPage from "./dashboard/DashboardPage";
+import WorkflowsPage from "./dashboard/WorkflowsPage";
+import RecentreportsPage from "./dashboard/RecentreportsPage";
+import AnalyticsPage from "./dashboard/AnalyticsPage";
+import SettingsPage from "./dashboard/SettingsPage";
 import DashBoardHome from "./dashboard/DashBoardHome";
 import DocsHistory from "./dashboard/DocsHistory";
 import DashboardLayout from "./dashboard/DashboardLayout";
@@ -119,7 +124,11 @@ const App = () => {
           {/* Protected Route for Dashboard */}
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard/:name" element={<DashboardLayout />}>
-              <Route index element={<DashBoardHome />} />
+              <Route index element={<DashboardPage />} />
+              <Route path="workflows" element={<WorkflowsPage />} />
+              <Route path="reports" element={<RecentreportsPage />} />
+              <Route path="analytics" element={<AnalyticsPage />} />
+              <Route path="settings" element={<SettingsPage />} />
               <Route path="history/documents" element={<DocsHistory />} />
               <Route path="history/notes" element={<NotesHistory />} />
               <Route
