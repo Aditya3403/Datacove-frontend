@@ -35,7 +35,7 @@ const NavBar = () => {
           </div>
           ) : (
             // Only show Back to Dashboard button on other pages
-            <Link to="/dashboard" className="bg-[#382fa3] text-white px-4 py-2 rounded">
+            <Link to={`/dashboard/${user.name}`} className="bg-[#382fa3] text-white px-4 py-2 rounded">
               Back to Dashboard
             </Link>
           )}
