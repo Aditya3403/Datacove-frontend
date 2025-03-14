@@ -46,6 +46,7 @@ import Craft from "./Craft/Craft";
 import AiDashboard from "./AiDashboard/AiDashboard";
 import AiFeatures from "./AiFeatures/AiFeatures";
 import NewFooter from "./NewFooter/NewFooter";
+import UserPlans from "./dashboard/DashboardPages/UserPlans";
 
 const Home = () => {
   return (
@@ -127,10 +128,12 @@ const App = () => {
               <Route index element={<DashboardPage />} />
               <Route path="workflows" element={<WorkflowsPage />} />
               <Route path="reports" element={<RecentreportsPage />} />
+
               <Route path="analytics" element={<AnalyticsPage />} />
               <Route path="settings" element={<SettingsPage />} />
               <Route path="history/documents" element={<DocsHistory />} />
               <Route path="history/notes" element={<NotesHistory />} />
+              {/* <Route path="plans" element={<UserPlans />} /> */}
               <Route
                 path="chat/summarizedocument"
                 element={<SummarizeDocument />}

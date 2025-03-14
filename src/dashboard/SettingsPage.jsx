@@ -1,29 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import useAppStore from "../store/useAppStore";
 
 const SettingsPage = () => {
-  const [activeTab, setActiveTab] = useState('account');
+  const [activeTab, setActiveTab] = useState("account");
   const { user, logout } = useAppStore();
-  
+
   return (
-    <div className="flex flex-col min-h-screen w-full bg-[#2E1D6A] text-white p-8">
+    <div className="flex flex-col min-h-screen w-full bg-[#2E1D6A] text-white p-8 rounded-lg">
       {/* Main Content */}
       <div className="flex flex-col h-full w-full">
         {/* Settings Content */}
         <div className="flex-1 overflow-auto p-4 md:p-6">
-          <h2 className="text-lg md:text-3xl font-bold mb-4 md:mb-8">Settings</h2>
+          <h2 className="text-lg md:text-3xl font-bold mb-4 md:mb-8">
+            Settings
+          </h2>
 
           {/* Settings Navigation Tabs */}
           <div className="flex h-full border-b border-indigo-800 mb-4 md:mb-6 overflow-x-auto whitespace-nowrap">
-            <button 
-              onClick={() => setActiveTab('account')} 
-              className={`px-3 py-2 md:px-4 text-sm md:text-base font-medium ${activeTab === 'account' ? 'border-b-2 border-purple-500 text-white' : 'text-indigo-300'}`}
+            <button
+              onClick={() => setActiveTab("account")}
+              className={`px-3 py-2 md:px-4 text-sm md:text-base font-medium ${
+                activeTab === "account"
+                  ? "border-b-2 border-purple-500 text-white"
+                  : "text-indigo-300"
+              }`}
             >
               Account
             </button>
-            <button 
-              onClick={() => setActiveTab('security')} 
-              className={`px-3 py-2 md:px-4 text-sm md:text-base font-medium ${activeTab === 'security' ? 'border-b-2 border-purple-500 text-white' : 'text-indigo-300'}`}
+            <button
+              onClick={() => setActiveTab("security")}
+              className={`px-3 py-2 md:px-4 text-sm md:text-base font-medium ${
+                activeTab === "security"
+                  ? "border-b-2 border-purple-500 text-white"
+                  : "text-indigo-300"
+              }`}
             >
               Security
             </button>
@@ -54,51 +64,65 @@ const SettingsPage = () => {
           </div>
 
           {/* Account Settings Tab */}
-          {activeTab === 'account' && (
+          {activeTab === "account" && (
             <div className="space-y-4 md:space-y-6">
               <div className="bg-indigo-900 rounded-lg p-4 md:p-6">
-                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">Profile Information</h3>
+                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">
+                  Profile Information
+                </h3>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
                   <div>
-                    <label className="block text-sm font-medium mb-1">Full Name</label>
-                    <input 
-                      type="text" 
+                    <label className="block text-sm font-medium mb-1">
+                      Full Name
+                    </label>
+                    <input
+                      type="text"
                       className="w-full px-3 py-2 bg-indigo-800 text-sm rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
                       defaultValue={user.displayName}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">Email</label>
-                    <input 
-                      type="email" 
+                    <label className="block text-sm font-medium mb-1">
+                      Email
+                    </label>
+                    <input
+                      type="email"
                       className="w-full px-3 py-2 bg-indigo-800 text-sm rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
                       defaultValue={user.email}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">Job Title</label>
-                    <input 
-                      type="text" 
+                    <label className="block text-sm font-medium mb-1">
+                      Job Title
+                    </label>
+                    <input
+                      type="text"
                       className="w-full px-3 py-2 bg-indigo-800 text-sm rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                      defaultValue="Legal Counsel" 
+                      defaultValue="Legal Counsel"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">Company</label>
-                    <input 
-                      type="text" 
+                    <label className="block text-sm font-medium mb-1">
+                      Company
+                    </label>
+                    <input
+                      type="text"
                       className="w-full px-3 py-2 bg-indigo-800 text-sm rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                      defaultValue="Acme Corporation" 
+                      defaultValue="Acme Corporation"
                     />
                   </div>
                 </div>
               </div>
 
               <div className="bg-indigo-900 rounded-lg p-4 md:p-6">
-                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">Preferences</h3>
+                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">
+                  Preferences
+                </h3>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium mb-1">Language</label>
+                    <label className="block text-sm font-medium mb-1">
+                      Language
+                    </label>
                     <select className="w-full px-3 py-2 bg-indigo-800 text-sm rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500">
                       <option>English</option>
                       <option>Spanish</option>
@@ -107,7 +131,9 @@ const SettingsPage = () => {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">Time Zone</label>
+                    <label className="block text-sm font-medium mb-1">
+                      Time Zone
+                    </label>
                     <select className="w-full px-3 py-2 bg-indigo-800 text-sm rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500">
                       <option>Eastern Time (ET)</option>
                       <option>Pacific Time (PT)</option>
@@ -127,22 +153,28 @@ const SettingsPage = () => {
           )}
 
           {/* Security Settings Tab */}
-          {activeTab === 'security' && (
+          {activeTab === "security" && (
             <div className="space-y-4 md:space-y-6">
               <div className="bg-indigo-900 rounded-lg p-4 md:p-6">
-                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">Password</h3>
+                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">
+                  Password
+                </h3>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium mb-1">Current Password</label>
-                    <input 
-                      type="password" 
+                    <label className="block text-sm font-medium mb-1">
+                      Current Password
+                    </label>
+                    <input
+                      type="password"
                       className="w-full px-3 py-2 bg-indigo-800 rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">New Password</label>
-                    <input 
-                      type="password" 
+                    <label className="block text-sm font-medium mb-1">
+                      New Password
+                    </label>
+                    <input
+                      type="password"
                       className="w-full px-3 py-2 bg-indigo-800 rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
                     />
                   </div>
@@ -179,25 +211,41 @@ const SettingsPage = () => {
           )}
 
           {/* AI Settings Tab */}
-          {activeTab === 'ai' && (
+          {activeTab === "ai" && (
             <div className="space-y-4 md:space-y-6">
               <div className="bg-indigo-900 rounded-lg p-4 md:p-6">
-                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">AI Processing Preferences</h3>
+                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">
+                  AI Processing Preferences
+                </h3>
                 <div className="space-y-4">
                   <div>
                     <label className="flex items-center">
-                      <input type="checkbox" className="mr-2 rounded" defaultChecked />
-                      <span className="text-sm md:text-base">Enable automatic document preprocessing</span>
+                      <input
+                        type="checkbox"
+                        className="mr-2 rounded"
+                        defaultChecked
+                      />
+                      <span className="text-sm md:text-base">
+                        Enable automatic document preprocessing
+                      </span>
                     </label>
                   </div>
                   <div>
                     <label className="flex items-center">
-                      <input type="checkbox" className="mr-2 rounded" defaultChecked />
-                      <span className="text-sm md:text-base">Enable PII redaction before AI processing</span>
+                      <input
+                        type="checkbox"
+                        className="mr-2 rounded"
+                        defaultChecked
+                      />
+                      <span className="text-sm md:text-base">
+                        Enable PII redaction before AI processing
+                      </span>
                     </label>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">Default AI Processing Depth</label>
+                    <label className="block text-sm font-medium mb-1">
+                      Default AI Processing Depth
+                    </label>
                     <select className="w-full px-3 py-2 bg-indigo-800 rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500">
                       <option>Standard (Fastest)</option>
                       <option>Enhanced</option>
@@ -208,22 +256,46 @@ const SettingsPage = () => {
               </div>
 
               <div className="bg-indigo-900 rounded-lg p-4 md:p-6">
-                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">Default AI Analysis Options</h3>
+                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">
+                  Default AI Analysis Options
+                </h3>
                 <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4">
                   <label className="flex items-center p-3 border border-indigo-700 rounded-md">
-                    <input type="checkbox" className="mr-2 rounded" defaultChecked />
-                    <span className="text-sm md:text-base">Risk Assessment</span>
+                    <input
+                      type="checkbox"
+                      className="mr-2 rounded"
+                      defaultChecked
+                    />
+                    <span className="text-sm md:text-base">
+                      Risk Assessment
+                    </span>
                   </label>
                   <label className="flex items-center p-3 border border-indigo-700 rounded-md">
-                    <input type="checkbox" className="mr-2 rounded" defaultChecked />
-                    <span className="text-sm md:text-base">Compliance Check</span>
+                    <input
+                      type="checkbox"
+                      className="mr-2 rounded"
+                      defaultChecked
+                    />
+                    <span className="text-sm md:text-base">
+                      Compliance Check
+                    </span>
                   </label>
                   <label className="flex items-center p-3 border border-indigo-700 rounded-md">
-                    <input type="checkbox" className="mr-2 rounded" defaultChecked />
-                    <span className="text-sm md:text-base">Clause Extraction</span>
+                    <input
+                      type="checkbox"
+                      className="mr-2 rounded"
+                      defaultChecked
+                    />
+                    <span className="text-sm md:text-base">
+                      Clause Extraction
+                    </span>
                   </label>
                   <label className="flex items-center p-3 border border-indigo-700 rounded-md">
-                    <input type="checkbox" className="mr-2 rounded" defaultChecked />
+                    <input
+                      type="checkbox"
+                      className="mr-2 rounded"
+                      defaultChecked
+                    />
                     <span className="text-sm md:text-base">Summarization</span>
                   </label>
                 </div>
@@ -238,11 +310,13 @@ const SettingsPage = () => {
           )}
 
           {/* Teams & Sharing Tab */}
-          {activeTab === 'teams' && (
+          {activeTab === "teams" && (
             <div className="space-y-4 md:space-y-6">
               <div className="bg-indigo-900 rounded-lg p-4 md:p-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-                  <h3 className="text-lg md:text-xl font-medium mb-2 sm:mb-0">Team Members</h3>
+                  <h3 className="text-lg md:text-xl font-medium mb-2 sm:mb-0">
+                    Team Members
+                  </h3>
                   <button className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded-md text-sm">
                     Invite Member
                   </button>
@@ -255,14 +329,18 @@ const SettingsPage = () => {
                       </div>
                       <div>
                         <p className="font-medium">Louis Carter (You)</p>
-                        <p className="text-sm text-indigo-400">louis.carter@example.com</p>
+                        <p className="text-sm text-indigo-400">
+                          louis.carter@example.com
+                        </p>
                       </div>
                     </div>
                     <div>
-                      <span className="px-2 py-1 text-xs rounded-full bg-purple-900 text-purple-300">Admin</span>
+                      <span className="px-2 py-1 text-xs rounded-full bg-purple-900 text-purple-300">
+                        Admin
+                      </span>
                     </div>
                   </div>
-                  
+
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-indigo-800">
                     <div className="flex items-center mb-2 sm:mb-0">
                       <div className="w-10 h-10 rounded-full bg-indigo-700 flex items-center justify-center mr-3">
@@ -270,7 +348,9 @@ const SettingsPage = () => {
                       </div>
                       <div>
                         <p className="font-medium">Jane Doe</p>
-                        <p className="text-sm text-indigo-400">jane.doe@example.com</p>
+                        <p className="text-sm text-indigo-400">
+                          jane.doe@example.com
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -286,12 +366,16 @@ const SettingsPage = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="bg-indigo-900 rounded-lg p-4 md:p-6">
-                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">Sharing Preferences</h3>
+                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">
+                  Sharing Preferences
+                </h3>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium mb-1">Default Report Access</label>
+                    <label className="block text-sm font-medium mb-1">
+                      Default Report Access
+                    </label>
                     <select className="w-full px-3 py-2 bg-indigo-800 rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500">
                       <option>Team Only</option>
                       <option>Anyone with Link</option>
@@ -300,8 +384,14 @@ const SettingsPage = () => {
                   </div>
                   <div>
                     <label className="flex items-center">
-                      <input type="checkbox" className="mr-2 rounded" defaultChecked />
-                      <span className="text-sm md:text-base">Enable document owner watermarks</span>
+                      <input
+                        type="checkbox"
+                        className="mr-2 rounded"
+                        defaultChecked
+                      />
+                      <span className="text-sm md:text-base">
+                        Enable document owner watermarks
+                      </span>
                     </label>
                   </div>
                 </div>
@@ -310,10 +400,12 @@ const SettingsPage = () => {
           )}
 
           {/* Integration Settings Tab */}
-          {activeTab === 'integration' && (
+          {activeTab === "integration" && (
             <div className="space-y-4 md:space-y-6">
               <div className="bg-indigo-900 rounded-lg p-4 md:p-6">
-                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">Connected Services</h3>
+                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">
+                  Connected Services
+                </h3>
                 <div className="space-y-4">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-indigo-800">
                     <div className="flex items-center mb-2 sm:mb-0">
@@ -322,14 +414,18 @@ const SettingsPage = () => {
                       </div>
                       <div>
                         <p className="font-medium">Google Drive</p>
-                        <p className="text-sm text-indigo-400">Import documents directly from Drive</p>
+                        <p className="text-sm text-indigo-400">
+                          Import documents directly from Drive
+                        </p>
                       </div>
                     </div>
                     <div>
-                      <span className="px-2 py-1 text-xs rounded-full bg-green-900 text-green-300">Connected</span>
+                      <span className="px-2 py-1 text-xs rounded-full bg-green-900 text-green-300">
+                        Connected
+                      </span>
                     </div>
                   </div>
-                  
+
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-indigo-800">
                     <div className="flex items-center mb-2 sm:mb-0">
                       <div className="w-10 h-10 rounded bg-white flex items-center justify-center mr-3">
@@ -337,7 +433,9 @@ const SettingsPage = () => {
                       </div>
                       <div>
                         <p className="font-medium">Slack</p>
-                        <p className="text-sm text-indigo-400">Share results directly to channels</p>
+                        <p className="text-sm text-indigo-400">
+                          Share results directly to channels
+                        </p>
                       </div>
                     </div>
                     <div>
@@ -348,15 +446,22 @@ const SettingsPage = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex flex-row bg-indigo-900 rounded-lg p-4 md:p-6">
-                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">Webhooks</h3>
-                <p className="text-indigo-300 mb-4">Configure webhooks to notify your systems when analysis is complete</p>
+                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">
+                  Webhooks
+                </h3>
+                <p className="text-indigo-300 mb-4">
+                  Configure webhooks to notify your systems when analysis is
+                  complete
+                </p>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium mb-1">Endpoint URL</label>
-                    <input 
-                      type="text" 
+                    <label className="block text-sm font-medium mb-1">
+                      Endpoint URL
+                    </label>
+                    <input
+                      type="text"
                       className="w-full px-3 py-2 bg-indigo-800 rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
                       placeholder="https://your-api.example.com/webhook"
                     />
