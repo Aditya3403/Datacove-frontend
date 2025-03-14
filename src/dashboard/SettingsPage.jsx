@@ -1,114 +1,85 @@
 import React, { useState } from 'react';
+import useAppStore from "../store/useAppStore";
 
 const SettingsPage = () => {
   const [activeTab, setActiveTab] = useState('account');
+  const { user, logout } = useAppStore();
   
   return (
-    <div className="flex flex-col h-full w-full bg-[#1A114A] text-white">
-      {/* Header */}
-      {/* <header className="border-b border-indigo-800 p-4">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">DATACOVE AI</h1>
-          <button className="bg-indigo-800 hover:bg-indigo-700 px-4 py-2 rounded-md">
-            Back to Dashboard
-          </button>
-        </div>
-      </header> */}
-
+    <div className="flex flex-col min-h-screen w-full bg-[#2E1D6A] text-white p-8">
       {/* Main Content */}
-      <div className="flex flex-col h-full w-full overflow-hidden">
-        {/* Left Sidebar */}
-        {/* <div className="w-64 border-r border-indigo-800 p-4">
-          <nav className="space-y-2">
-            <div className="p-3 rounded-md text-indigo-300 hover:bg-indigo-900 cursor-pointer">
-              Dashboard
-            </div>
-            <div className="p-3 rounded-md text-indigo-300 hover:bg-indigo-900 cursor-pointer">
-              My Workflows
-            </div>
-            <div className="p-3 rounded-md text-indigo-300 hover:bg-indigo-900 cursor-pointer">
-              Recent Reports
-            </div>
-            <div className="p-3 rounded-md text-indigo-300 hover:bg-indigo-900 cursor-pointer">
-              Analytics
-            </div>
-            <div className="p-3 rounded-md bg-indigo-700 text-white cursor-pointer">
-              Settings
-            </div>
-          </nav>
-        </div> */}
-
+      <div className="flex flex-col h-full w-full">
         {/* Settings Content */}
-        <div className="flex-1 overflow-auto p-6">
-          <h2 className="text-3xl font-bold mb-8">Settings</h2>
+        <div className="flex-1 overflow-auto p-4 md:p-6">
+          <h2 className="text-lg md:text-3xl font-bold mb-4 md:mb-8">Settings</h2>
 
           {/* Settings Navigation Tabs */}
-          <div className="flex border-b border-indigo-800 mb-6 overflow-x-auto">
+          <div className="flex h-full border-b border-indigo-800 mb-4 md:mb-6 overflow-x-auto whitespace-nowrap">
             <button 
               onClick={() => setActiveTab('account')} 
-              className={`px-4 py-2 font-medium ${activeTab === 'account' ? 'border-b-2 border-purple-500 text-white' : 'text-indigo-300'}`}
+              className={`px-3 py-2 md:px-4 text-sm md:text-base font-medium ${activeTab === 'account' ? 'border-b-2 border-purple-500 text-white' : 'text-indigo-300'}`}
             >
               Account
             </button>
             <button 
               onClick={() => setActiveTab('security')} 
-              className={`px-4 py-2 font-medium ${activeTab === 'security' ? 'border-b-2 border-purple-500 text-white' : 'text-indigo-300'}`}
+              className={`px-3 py-2 md:px-4 text-sm md:text-base font-medium ${activeTab === 'security' ? 'border-b-2 border-purple-500 text-white' : 'text-indigo-300'}`}
             >
               Security
             </button>
-            <button 
+            {/* <button 
               onClick={() => setActiveTab('notifications')} 
-              className={`px-4 py-2 font-medium ${activeTab === 'notifications' ? 'border-b-2 border-purple-500 text-white' : 'text-indigo-300'}`}
+              className={`px-3 py-2 md:px-4 text-sm md:text-base font-medium ${activeTab === 'notifications' ? 'border-b-2 border-purple-500 text-white' : 'text-indigo-300'}`}
             >
               Notifications
             </button>
             <button 
               onClick={() => setActiveTab('ai')} 
-              className={`px-4 py-2 font-medium ${activeTab === 'ai' ? 'border-b-2 border-purple-500 text-white' : 'text-indigo-300'}`}
+              className={`px-3 py-2 md:px-4 text-sm md:text-base font-medium ${activeTab === 'ai' ? 'border-b-2 border-purple-500 text-white' : 'text-indigo-300'}`}
             >
               AI Settings
             </button>
             <button 
               onClick={() => setActiveTab('teams')} 
-              className={`px-4 py-2 font-medium ${activeTab === 'teams' ? 'border-b-2 border-purple-500 text-white' : 'text-indigo-300'}`}
+              className={`px-3 py-2 md:px-4 text-sm md:text-base font-medium ${activeTab === 'teams' ? 'border-b-2 border-purple-500 text-white' : 'text-indigo-300'}`}
             >
               Teams
             </button>
             <button 
               onClick={() => setActiveTab('integration')} 
-              className={`px-4 py-2 font-medium ${activeTab === 'integration' ? 'border-b-2 border-purple-500 text-white' : 'text-indigo-300'}`}
+              className={`px-3 py-2 md:px-4 text-sm md:text-base font-medium ${activeTab === 'integration' ? 'border-b-2 border-purple-500 text-white' : 'text-indigo-300'}`}
             >
               Integrations
-            </button>
+            </button> */}
           </div>
 
           {/* Account Settings Tab */}
           {activeTab === 'account' && (
-            <div className="space-y-6">
-              <div className="bg-indigo-900 rounded-lg p-6">
-                <h3 className="text-xl font-medium mb-4">Profile Information</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4 md:space-y-6">
+              <div className="bg-indigo-900 rounded-lg p-4 md:p-6">
+                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">Profile Information</h3>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
                   <div>
                     <label className="block text-sm font-medium mb-1">Full Name</label>
                     <input 
                       type="text" 
-                      className="w-full px-3 py-2 bg-indigo-800 rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                      defaultValue="Louis Carter" 
+                      className="w-full px-3 py-2 bg-indigo-800 text-sm rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      defaultValue={user.displayName}
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1">Email</label>
                     <input 
                       type="email" 
-                      className="w-full px-3 py-2 bg-indigo-800 rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                      defaultValue="louis.carter@example.com" 
+                      className="w-full px-3 py-2 bg-indigo-800 text-sm rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      defaultValue={user.email}
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1">Job Title</label>
                     <input 
                       type="text" 
-                      className="w-full px-3 py-2 bg-indigo-800 rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className="w-full px-3 py-2 bg-indigo-800 text-sm rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
                       defaultValue="Legal Counsel" 
                     />
                   </div>
@@ -116,19 +87,19 @@ const SettingsPage = () => {
                     <label className="block text-sm font-medium mb-1">Company</label>
                     <input 
                       type="text" 
-                      className="w-full px-3 py-2 bg-indigo-800 rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className="w-full px-3 py-2 bg-indigo-800 text-sm rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
                       defaultValue="Acme Corporation" 
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="bg-indigo-900 rounded-lg p-6">
-                <h3 className="text-xl font-medium mb-4">Preferences</h3>
+              <div className="bg-indigo-900 rounded-lg p-4 md:p-6">
+                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">Preferences</h3>
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium mb-1">Language</label>
-                    <select className="w-full px-3 py-2 bg-indigo-800 rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    <select className="w-full px-3 py-2 bg-indigo-800 text-sm rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500">
                       <option>English</option>
                       <option>Spanish</option>
                       <option>French</option>
@@ -137,7 +108,7 @@ const SettingsPage = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1">Time Zone</label>
-                    <select className="w-full px-3 py-2 bg-indigo-800 rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    <select className="w-full px-3 py-2 bg-indigo-800 text-sm rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500">
                       <option>Eastern Time (ET)</option>
                       <option>Pacific Time (PT)</option>
                       <option>Central European Time (CET)</option>
@@ -148,7 +119,7 @@ const SettingsPage = () => {
               </div>
 
               <div className="flex justify-end">
-                <button className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-md">
+                <button className="w-full md:w-auto text-sm bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-md">
                   Save Changes
                 </button>
               </div>
@@ -157,9 +128,9 @@ const SettingsPage = () => {
 
           {/* Security Settings Tab */}
           {activeTab === 'security' && (
-            <div className="space-y-6">
-              <div className="bg-indigo-900 rounded-lg p-6">
-                <h3 className="text-xl font-medium mb-4">Password</h3>
+            <div className="space-y-4 md:space-y-6">
+              <div className="bg-indigo-900 rounded-lg p-4 md:p-6">
+                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">Password</h3>
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium mb-1">Current Password</label>
@@ -175,31 +146,18 @@ const SettingsPage = () => {
                       className="w-full px-3 py-2 bg-indigo-800 rounded-md border border-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
                     />
                   </div>
-                  <button className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-md mt-2">
+                  <button className="w-full md:w-auto bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-md mt-2">
                     Update Password
                   </button>
                 </div>
               </div>
 
-              <div className="bg-indigo-900 rounded-lg p-6">
-                <h3 className="text-xl font-medium mb-4">Two-Factor Authentication</h3>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-indigo-300">Add an extra layer of security to your account</p>
-                    <p className="text-sm text-indigo-400 mt-1">Currently: <span className="text-red-400">Disabled</span></p>
-                  </div>
-                  <button className="bg-indigo-800 hover:bg-indigo-700 px-4 py-2 rounded-md">
-                    Enable 2FA
-                  </button>
-                </div>
-              </div>
-
-              <div className="bg-indigo-900 rounded-lg p-6">
-                <h3 className="text-xl font-medium mb-4">API Keys</h3>
+              {/* <div className="bg-indigo-900 rounded-lg p-4 md:p-6">
+                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">API Keys</h3>
                 <p className="text-indigo-300 mb-4">Manage API keys to allow external applications to access DataCove AI</p>
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between py-3 border-b border-indigo-800">
-                    <div>
+                  <div className="flex flex-row sm:flex-row sm:items-center justify-between py-3 border-b border-indigo-800">
+                    <div className="mb-2 sm:mb-0">
                       <p className="font-medium">Production Key</p>
                       <p className="text-sm text-indigo-400">Created: Feb 12, 2025</p>
                     </div>
@@ -213,29 +171,29 @@ const SettingsPage = () => {
                     </div>
                   </div>
                 </div>
-                <button className="mt-4 bg-indigo-800 hover:bg-indigo-700 px-4 py-2 rounded-md">
+                <button className="w-full md:w-auto mt-4 bg-indigo-800 hover:bg-indigo-700 px-4 py-2 rounded-md">
                   Generate New API Key
                 </button>
-              </div>
+              </div> */}
             </div>
           )}
 
           {/* AI Settings Tab */}
           {activeTab === 'ai' && (
-            <div className="space-y-6">
-              <div className="bg-indigo-900 rounded-lg p-6">
-                <h3 className="text-xl font-medium mb-4">AI Processing Preferences</h3>
+            <div className="space-y-4 md:space-y-6">
+              <div className="bg-indigo-900 rounded-lg p-4 md:p-6">
+                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">AI Processing Preferences</h3>
                 <div className="space-y-4">
                   <div>
                     <label className="flex items-center">
                       <input type="checkbox" className="mr-2 rounded" defaultChecked />
-                      <span>Enable automatic document preprocessing</span>
+                      <span className="text-sm md:text-base">Enable automatic document preprocessing</span>
                     </label>
                   </div>
                   <div>
                     <label className="flex items-center">
                       <input type="checkbox" className="mr-2 rounded" defaultChecked />
-                      <span>Enable PII redaction before AI processing</span>
+                      <span className="text-sm md:text-base">Enable PII redaction before AI processing</span>
                     </label>
                   </div>
                   <div>
@@ -249,30 +207,30 @@ const SettingsPage = () => {
                 </div>
               </div>
 
-              <div className="bg-indigo-900 rounded-lg p-6">
-                <h3 className="text-xl font-medium mb-4">Default AI Analysis Options</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-indigo-900 rounded-lg p-4 md:p-6">
+                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">Default AI Analysis Options</h3>
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4">
                   <label className="flex items-center p-3 border border-indigo-700 rounded-md">
                     <input type="checkbox" className="mr-2 rounded" defaultChecked />
-                    <span>Risk Assessment</span>
+                    <span className="text-sm md:text-base">Risk Assessment</span>
                   </label>
                   <label className="flex items-center p-3 border border-indigo-700 rounded-md">
                     <input type="checkbox" className="mr-2 rounded" defaultChecked />
-                    <span>Compliance Check</span>
+                    <span className="text-sm md:text-base">Compliance Check</span>
                   </label>
                   <label className="flex items-center p-3 border border-indigo-700 rounded-md">
                     <input type="checkbox" className="mr-2 rounded" defaultChecked />
-                    <span>Clause Extraction</span>
+                    <span className="text-sm md:text-base">Clause Extraction</span>
                   </label>
                   <label className="flex items-center p-3 border border-indigo-700 rounded-md">
                     <input type="checkbox" className="mr-2 rounded" defaultChecked />
-                    <span>Summarization</span>
+                    <span className="text-sm md:text-base">Summarization</span>
                   </label>
                 </div>
               </div>
 
               <div className="flex justify-end">
-                <button className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-md">
+                <button className="w-full md:w-auto bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-md">
                   Save AI Settings
                 </button>
               </div>
@@ -281,17 +239,17 @@ const SettingsPage = () => {
 
           {/* Teams & Sharing Tab */}
           {activeTab === 'teams' && (
-            <div className="space-y-6">
-              <div className="bg-indigo-900 rounded-lg p-6">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-xl font-medium">Team Members</h3>
-                  <button className="bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded-md text-sm">
+            <div className="space-y-4 md:space-y-6">
+              <div className="bg-indigo-900 rounded-lg p-4 md:p-6">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+                  <h3 className="text-lg md:text-xl font-medium mb-2 sm:mb-0">Team Members</h3>
+                  <button className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded-md text-sm">
                     Invite Member
                   </button>
                 </div>
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between py-3 border-b border-indigo-800">
-                    <div className="flex items-center">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-indigo-800">
+                    <div className="flex items-center mb-2 sm:mb-0">
                       <div className="w-10 h-10 rounded-full bg-indigo-700 flex items-center justify-center mr-3">
                         <span>LC</span>
                       </div>
@@ -305,8 +263,8 @@ const SettingsPage = () => {
                     </div>
                   </div>
                   
-                  <div className="flex items-center justify-between py-3 border-b border-indigo-800">
-                    <div className="flex items-center">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-indigo-800">
+                    <div className="flex items-center mb-2 sm:mb-0">
                       <div className="w-10 h-10 rounded-full bg-indigo-700 flex items-center justify-center mr-3">
                         <span>JD</span>
                       </div>
@@ -329,8 +287,8 @@ const SettingsPage = () => {
                 </div>
               </div>
               
-              <div className="bg-indigo-900 rounded-lg p-6">
-                <h3 className="text-xl font-medium mb-4">Sharing Preferences</h3>
+              <div className="bg-indigo-900 rounded-lg p-4 md:p-6">
+                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">Sharing Preferences</h3>
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium mb-1">Default Report Access</label>
@@ -343,7 +301,7 @@ const SettingsPage = () => {
                   <div>
                     <label className="flex items-center">
                       <input type="checkbox" className="mr-2 rounded" defaultChecked />
-                      <span>Enable document owner watermarks</span>
+                      <span className="text-sm md:text-base">Enable document owner watermarks</span>
                     </label>
                   </div>
                 </div>
@@ -353,12 +311,12 @@ const SettingsPage = () => {
 
           {/* Integration Settings Tab */}
           {activeTab === 'integration' && (
-            <div className="space-y-6">
-              <div className="bg-indigo-900 rounded-lg p-6">
-                <h3 className="text-xl font-medium mb-4">Connected Services</h3>
+            <div className="space-y-4 md:space-y-6">
+              <div className="bg-indigo-900 rounded-lg p-4 md:p-6">
+                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">Connected Services</h3>
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between py-3 border-b border-indigo-800">
-                    <div className="flex items-center">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-indigo-800">
+                    <div className="flex items-center mb-2 sm:mb-0">
                       <div className="w-10 h-10 rounded bg-white flex items-center justify-center mr-3">
                         <span className="text-indigo-900 font-bold">G</span>
                       </div>
@@ -372,8 +330,8 @@ const SettingsPage = () => {
                     </div>
                   </div>
                   
-                  <div className="flex items-center justify-between py-3 border-b border-indigo-800">
-                    <div className="flex items-center">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-indigo-800">
+                    <div className="flex items-center mb-2 sm:mb-0">
                       <div className="w-10 h-10 rounded bg-white flex items-center justify-center mr-3">
                         <span className="text-indigo-900 font-bold">S</span>
                       </div>
@@ -383,7 +341,7 @@ const SettingsPage = () => {
                       </div>
                     </div>
                     <div>
-                      <button className="bg-indigo-800 hover:bg-indigo-700 px-3 py-1 rounded-md text-sm">
+                      <button className="w-full sm:w-auto bg-indigo-800 hover:bg-indigo-700 px-3 py-1 rounded-md text-sm">
                         Connect
                       </button>
                     </div>
@@ -391,8 +349,8 @@ const SettingsPage = () => {
                 </div>
               </div>
               
-              <div className="bg-indigo-900 rounded-lg p-6">
-                <h3 className="text-xl font-medium mb-4">Webhooks</h3>
+              <div className="flex flex-row bg-indigo-900 rounded-lg p-4 md:p-6">
+                <h3 className="text-lg md:text-xl font-medium mb-3 md:mb-4">Webhooks</h3>
                 <p className="text-indigo-300 mb-4">Configure webhooks to notify your systems when analysis is complete</p>
                 <div className="space-y-4">
                   <div>
@@ -403,7 +361,7 @@ const SettingsPage = () => {
                       placeholder="https://your-api.example.com/webhook"
                     />
                   </div>
-                  <button className="bg-indigo-800 hover:bg-indigo-700 px-4 py-2 rounded-md">
+                  <button className="w-full md:w-auto bg-indigo-800 hover:bg-indigo-700 px-4 py-2 rounded-md">
                     Save Webhook
                   </button>
                 </div>
