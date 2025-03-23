@@ -19,8 +19,9 @@ const AcceptInvitation = () => {
     async function fetchInvitation() {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/v1/dashboard/fetch-invitation?token=${token}`
+          `http://localhost:3000/api/v1/dashboard/fetch-invitation?token=${token}`
         );
+        console.log("Response is" ,res)
         const inviteeEmail = res.data.invitation.email;
         // console.log("ACCEPT", res.data.invitation);
         setEmail(inviteeEmail);
@@ -42,7 +43,7 @@ const AcceptInvitation = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/v1/dashboard/accept-invitation",
+        "http://localhost:3000/api/v1/dashboard/accept-invitation",
         {
           token,
           email,

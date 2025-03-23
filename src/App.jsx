@@ -37,6 +37,7 @@ import ChatWithAI from "./dashboard/DashboardPages/ChatWithAI";
 import ChatWithClient from "./dashboard/DashboardPages/ChatWithClient";
 import ResetPassword from "./Pages/ResetPassword";
 import AcceptInvitation from "./dashboard/DashboardPages/AcceptInvitation";
+import AcceptClientInvitation from "./dashboard/DashboardPages/AcceptClientInvitation";
 import Clients from "./dashboard/DashboardPages/Clients";
 import CreateProject from "./dashboard/Projects/CreateProject";
 import SingleProject from "./dashboard/Projects/SingleProject";
@@ -121,7 +122,10 @@ const App = () => {
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/join" element={<AcceptInvitation />} />
           <Route path="/verify-email" element={<VerifyOtp />} />
-
+          <Route
+            path="/accept-invitation"
+            element={<AcceptClientInvitation />}
+          />
           {/* Protected Route for Dashboard */}
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard/:name" element={<DashboardLayout />}>

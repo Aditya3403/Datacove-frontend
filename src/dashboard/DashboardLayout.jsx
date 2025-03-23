@@ -30,7 +30,7 @@ const DashboardLayout = () => {
   };
 
   return (
-    <div className="flex flex-row min-h-screen  rounded-lg">
+    <div className="flex flex-row min-h-screen rounded-lg bg-[#f4f7fe]">
       {/* Sidebar */}
       <div
         className={`${
