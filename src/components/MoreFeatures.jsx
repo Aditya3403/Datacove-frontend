@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import hero from "../assets/hero-bg.png";
 import feature from "../assets/feature-icon.png";
 import kaspersky from "../assets/kaspersky.png";
@@ -37,6 +38,15 @@ const images = [
 ];
 
 const MoreFeatures = () => {
+  const [isDemoClicked, setIsDemoClicked] = useState(false);
+  const [isGetStartedClicked, setIsGetStartedClicked] = useState(false);
+  const [isContactClicked, setIsContactClicked] = useState(false);
+  const navigate = useNavigate();
+
+  const handleContactClick = () => {
+    setIsContactClicked(true);
+    navigate('/contact-us'); // Assuming you have a route for '/contact'
+  };
   return (
     <div className="mt-32  ">
       {/* Hero */}
@@ -424,11 +434,20 @@ const MoreFeatures = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-wrap justify-center items-center gap-4 mt-12 mb-10">
-            <button className="bg-[#7214FF] px-6 py-2 rounded-2xl text-[12px]">
+          {/* Get Started and Contact Us Buttons at Bottom */}
+          <div className="flex flex-wrap justify-center items-center gap-4 mt-12 mb-10 relative z-50">
+            <button 
+              className={`${isGetStartedClicked ? 'bg-[#5a0fd4]' : 'bg-[#7214FF]'} px-6 py-2 rounded-2xl text-[12px]`}
+              aria-label="Get started with DataCove AI"
+              onClick={() => setIsGetStartedClicked(!isGetStartedClicked)}
+            >
               Get Started
             </button>
-            <button className="border border-[#1F1F1F] px-6 py-2 rounded-2xl text-[12px]">
+            <button 
+              className={`${isContactClicked ? 'bg-[#5a0fd4]' : ''} border border-[#1F1F1F] px-6 py-2 rounded-2xl text-[12px]`}
+              aria-label="Contact DataCove AI team"
+              onClick={handleContactClick}
+            >
               Contact Us
             </button>
           </div>

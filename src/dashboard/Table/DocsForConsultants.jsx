@@ -11,7 +11,7 @@ import axios from "axios";
 import useAppStore from "../../store/useAppStore";
 import { toast } from "react-hot-toast";
 
-const DocsForClient = ({ selectedFolder, refreshFolders }) => {
+const DocsForConsultants = ({ selectedFolder, refreshFolders }) => {
   const { user, setUser } = useAppStore();
   const [globalFilter, setGlobalFilter] = useState("");
   const [sorting, setSorting] = useState([]);
@@ -21,26 +21,21 @@ const DocsForClient = ({ selectedFolder, refreshFolders }) => {
   const [deletingId, setDeletingId] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const dropdownRef = useRef(null);
-  
-  console.log("Selected Folder:", selectedFolder);
-  console.log("Client Id:", selectedFolder?.clientId);
 
-  // Filter shared docs from user object instead of API call
-  const filterSharedClientDocs = () => {
+  const fetchSharedDocuments = async () => {
     try {
-      if (!selectedFolder?.clientId || !user?.sharedDocs) {
-        return [];
-      }
-      
-      // Filter docs that match the selected client ID
-      const filteredDocs = user.sharedDocs.filter(doc => 
-        doc.clientId === selectedFolder.clientId
+      const response = await axios.get(
+        "http://localhost:3000/api/v1/upload/getSharedDocs",
+        { 
+          withCredentials: true,
+          params: { userId: user._id }
+        }
       );
-      
-      return filteredDocs || [];
+      console.log("Raw document data:", response.data.sharedDocs);
+      return response.data.sharedDocs || [];
     } catch (error) {
-      console.error("Error filtering shared documents:", error);
-      toast.error("Failed to filter shared documents");
+      console.error("Error fetching shared documents:", error);
+      toast.error("Failed to fetch shared documents");
       return [];
     }
   };
@@ -54,7 +49,6 @@ const DocsForClient = ({ selectedFolder, refreshFolders }) => {
         throw new Error("Document URL is missing");
       }
   
-      // Extract S3 key
       let s3Key;
       try {
         const url = new URL(docData.fileUrl);
@@ -66,11 +60,10 @@ const DocsForClient = ({ selectedFolder, refreshFolders }) => {
           decodedUrl.split(`${user.s3Bucket}.s3.amazonaws.com%2F`)[1];
       }
   
-      // Optimistic update - remove from UI immediately
       setSharedDocs(prevDocs => prevDocs.filter(doc => doc.docId !== docId));
   
       const response = await axios.delete(
-        `http://localhost:3000/api/v1/upload/deleteSharedClientDocs`, 
+        `http://localhost:3000/api/v1/upload/deleteSharedDoc`, 
         {
           data: {
             docId: docId,
@@ -87,14 +80,7 @@ const DocsForClient = ({ selectedFolder, refreshFolders }) => {
   
       toast.success("Document removed successfully");
       
-      // Update user object with updated shared docs
-      setUser({
-        ...user,
-        sharedDocs: user.sharedDocs.filter(doc => doc._id !== docId && doc.docId !== docId)
-      });
-      
-      // Refresh the list from updated user object
-      const docs = filterSharedClientDocs();
+      const docs = await fetchSharedDocuments();
       setSharedDocs(docs);
     } catch (error) {
       console.error("Delete error:", error);
@@ -104,8 +90,7 @@ const DocsForClient = ({ selectedFolder, refreshFolders }) => {
         "Failed to remove shared document"
       );
       
-      // Revert optimistic update if failed
-      const docs = filterSharedClientDocs();
+      const docs = await fetchSharedDocuments();
       setSharedDocs(docs);
     } finally {
       setDeleteLoading(false);
@@ -114,21 +99,16 @@ const DocsForClient = ({ selectedFolder, refreshFolders }) => {
   };
 
   useEffect(() => {
-    const loadSharedDocuments = () => {
+    const loadSharedDocuments = async () => {
       setLoading(true);
-      console.log("Filtering docs for client:", selectedFolder?._id);
-      const docs = filterSharedClientDocs();
-      console.log("Filtered documents:", docs);
+      const docs = await fetchSharedDocuments();
       setSharedDocs(docs);
       setLoading(false);
     };
     
-    if (selectedFolder && selectedFolder._id) {
-      loadSharedDocuments();
-    }
-  }, [selectedFolder, user.sharedDocs]);
+    loadSharedDocuments();
+  }, [selectedFolder]);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -142,7 +122,6 @@ const DocsForClient = ({ selectedFolder, refreshFolders }) => {
     };
   }, []);
 
-  // Function to format date and get day name
   const formatDateWithDay = (dateString) => {
     if (!dateString) return "Unknown date";
     
@@ -164,16 +143,15 @@ const DocsForClient = ({ selectedFolder, refreshFolders }) => {
     return sharedDocs.map((doc, index) => ({
       ...doc,
       SrNo: index + 1,
-      Name: doc.name || "Unnamed Document",
-      date: formatDateWithDay(doc.uploadedAt),
-      link: doc.fileUrl || "#",
-      docId: doc._id || doc.docId,
+      Name: doc.name || doc.docName || "Unnamed Document",
+      date: formatDateWithDay(doc.date || doc.uploadedAt),
+      link: doc.fileUrl || doc.docUrl || "#",
+      docId: doc.docId,
       description: doc.description || "No description provided",
-      uploadedByName: doc.uploadersName || "Unknown",
-      fileSize: doc.fileSize ? `${(doc.fileSize / 1024).toFixed(2)} KB` : "Unknown"
+      uploadedByName: doc.uploadedByName || "Unknown"
     }));
   }, [sharedDocs]);
-  
+
   const columns = useMemo(
     () => [
       {
@@ -307,7 +285,7 @@ const DocsForClient = ({ selectedFolder, refreshFolders }) => {
     getFilteredRowModel: getFilteredRowModel(),
   });
 
-  if (loading && !selectedFolder) {
+  if (loading && sharedDocs.length === 0) {
     return (
       <div className="flex justify-center items-center py-12">
         <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#00DFA2]"></div>
@@ -317,7 +295,6 @@ const DocsForClient = ({ selectedFolder, refreshFolders }) => {
 
   return (
     <div className="w-full mx-auto">
-      {/* File description modal */}
       {selectedFile && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
           <div className="bg-indigo-900 rounded-lg p-6 max-w-md w-full">
@@ -426,4 +403,4 @@ const DocsForClient = ({ selectedFolder, refreshFolders }) => {
   );
 };
 
-export default DocsForClient;
+export default DocsForConsultants;

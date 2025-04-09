@@ -27,6 +27,7 @@ import WorkflowsPage from "./dashboard/WorkflowsPage";
 import RecentreportsPage from "./dashboard/RecentreportsPage";
 import AnalyticsPage from "./dashboard/AnalyticsPage";
 import SettingsPage from "./dashboard/SettingsPage";
+import ConsultantsPage from "./dashboard/ConsultantsPage";
 import DashBoardHome from "./dashboard/DashBoardHome";
 import DocsHistory from "./dashboard/DocsHistory";
 import DashboardLayout from "./dashboard/DashboardLayout";
@@ -37,6 +38,7 @@ import ChatWithAI from "./dashboard/DashboardPages/ChatWithAI";
 import ChatWithClient from "./dashboard/DashboardPages/ChatWithClient";
 import ResetPassword from "./Pages/ResetPassword";
 import AcceptInvitation from "./dashboard/DashboardPages/AcceptInvitation";
+import AcceptClientInvitation from "./dashboard/DashboardPages/AcceptClientInvitation";
 import Clients from "./dashboard/DashboardPages/Clients";
 import CreateProject from "./dashboard/Projects/CreateProject";
 import SingleProject from "./dashboard/Projects/SingleProject";
@@ -47,6 +49,9 @@ import AiDashboard from "./AiDashboard/AiDashboard";
 import AiFeatures from "./AiFeatures/AiFeatures";
 import NewFooter from "./NewFooter/NewFooter";
 import UserPlans from "./dashboard/DashboardPages/UserPlans";
+import DocsForClient from "./dashboard/Table/DocsForClient";
+import ClientsProject from "./dashboard/Projects/ClientProject";
+import ConsultantsProject from "./dashboard/Projects/ConsultantsProject";
 
 const Home = () => {
   return (
@@ -121,7 +126,10 @@ const App = () => {
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/join" element={<AcceptInvitation />} />
           <Route path="/verify-email" element={<VerifyOtp />} />
-
+          <Route
+            path="/accept-invitation"
+            element={<AcceptClientInvitation />}
+          />
           {/* Protected Route for Dashboard */}
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard/:name" element={<DashboardLayout />}>
@@ -131,6 +139,7 @@ const App = () => {
 
               <Route path="analytics" element={<AnalyticsPage />} />
               <Route path="settings" element={<SettingsPage />} />
+              <Route path="consultants" element={<ConsultantsPage />} />
               <Route path="history/documents" element={<DocsHistory />} />
               <Route path="history/notes" element={<NotesHistory />} />
               {/* <Route path="plans" element={<UserPlans />} /> */}
@@ -138,6 +147,8 @@ const App = () => {
                 path="chat/summarizedocument"
                 element={<SummarizeDocument />}
               />
+              <Route path="client/docs" element={<ClientsProject />} />
+              <Route path="consultants/docs" element={<ConsultantsProject />} />
               <Route path="chat/ai" element={<ChatWithAI />} />
               <Route path="chat/client" element={<ChatWithClient />} />
               <Route

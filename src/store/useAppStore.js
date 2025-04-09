@@ -2,8 +2,9 @@ import axios from "axios";
 import { create } from "zustand";
 import toast from "react-hot-toast";
 
+// const API_BASE_URL = import.meta.env.VITE_BACKEND_PRODUCTION_URL;
 const API_BASE_URL = "http://localhost:3000";
-// const API_BASE_URL = "https://datacove-backend.onrender.com";
+// console.log("Production url", API_BASE_URL);
 
 const useAppStore = create((set) => ({
   user: null,
@@ -17,6 +18,9 @@ const useAppStore = create((set) => ({
   isLoggingOut: false,
   isCheckingAuth: true,
 
+  // Add the setUser function to update the user state
+  setUser: (userData) => set({ user: userData }),
+
   openSignUp: () => set({ isSignUpOpen: true }),
   closeSignUp: () => set({ isSignUpOpen: false }),
   openLogin: () => set({ isLoginOpen: true }),
@@ -29,25 +33,26 @@ const useAppStore = create((set) => ({
         `${API_BASE_URL}/api/v1/auth/individual-signup`,
         credentials,
         {
-          headers: {
-            "Content-Type": "application/json",
-          },
           withCredentials: true, // Include credentials for cookies
         }
       );
-      console.log(response);
+      // console.log(response);
       if (response.data.user.is_email_verified === true) {
         set({ user: response.data.user, isIndiSigningUp: false });
       }
 
       if (response.status === 201) {
-        toast.success(
-          "Account created successfully, Check mail for verfication"
-        );
+        return "Account created successfully, Check mail for verfication";
       }
     } catch (error) {
-      //console.log(error)
-      toast.error(error.response.data.message || "Sign Up failed");
+      console.error("Signup Error:", error);
+
+      if (error.response) {
+        toast.error(error.response.data?.message || "Sign Up failed");
+      } else {
+        toast.error("Server not reachable. Please try again later.");
+      }
+
       set({ isIndiSigningUp: false, user: null });
     }
   },
@@ -65,8 +70,12 @@ const useAppStore = create((set) => ({
         }
       );
       console.log(response);
-      set({ user: response.data.user, isOrgSigningUp: false });
-      toast.success("Account created successfully");
+      if (response.data.user.is_email_verified === true) {
+        set({ user: response.data.user, isOrgSigningUp: false });
+      }
+      if (response.status === 201) {
+        return "Account created successfully, Check mail for verfication";
+      }
     } catch (error) {
       //console.log(error)
       toast.error(error.response.data.message || "Sign Up failed");
@@ -80,10 +89,12 @@ const useAppStore = create((set) => ({
       const response = await axios.post(
         `${API_BASE_URL}/api/v1/auth/login`,
         credentials,
-        { withCredentials: true }
+        {
+          withCredentials: true,
+        }
       );
       if (response.status === 200) {
-        toast.success("Login Successfully");
+        toast.success(response.data.message);
       }
       set({ user: response.data.user, isLoggingIn: false });
       navigate(`/dashboard/${response.data.user.name.replace(/\s+/g, "")}`);
@@ -115,7 +126,9 @@ const useAppStore = create((set) => ({
     try {
       const response = await axios.get(
         `${API_BASE_URL}/api/v1/auth/authCheck`,
-        { withCredentials: true }
+        {
+          withCredentials: true,
+        }
       );
       console.log("RESPONSE", response);
       set({ user: response.data.user, isCheckingAuth: false });

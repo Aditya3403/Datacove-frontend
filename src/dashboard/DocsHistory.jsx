@@ -1,82 +1,45 @@
 import React, { useState, useMemo } from "react";
-import { Download, Search, ChevronUp, ChevronDown } from "lucide-react";
+import { Search } from "lucide-react";
 import useAppStore from "../store/useAppStore";
 import DocsForClient from "./Table/DocsForClient";
-import DocsForUser from "./Table/DocsForUser";
 
 const DocsHistory = () => {
   const { user } = useAppStore();
-  const docs = user.docs;
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortConfig, setSortConfig] = useState({
-    key: null,
-    direction: "asc",
-  });
 
-  // Handle sorting
-  const handleSort = (key) => {
-    setSortConfig((currentSort) => ({
-      key,
-      direction:
-        currentSort.key === key && currentSort.direction === "asc"
-          ? "desc"
-          : "asc",
-    }));
-  };
-
-  // Filter and sort documents
-  const filteredAndSortedDocs = useMemo(() => {
-    let filtered = [...docs];
-
-    // Apply search filter
-    if (searchTerm) {
-      filtered = filtered.filter(
-        (doc) =>
-          doc.Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          doc.date.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    // Apply sorting
-    if (sortConfig.key) {
-      filtered.sort((a, b) => {
-        if (a[sortConfig.key] < b[sortConfig.key]) {
-          return sortConfig.direction === "asc" ? -1 : 1;
-        }
-        if (a[sortConfig.key] > b[sortConfig.key]) {
-          return sortConfig.direction === "asc" ? 1 : -1;
-        }
-        return 0;
-      });
-    }
-
-    return filtered;
-  }, [docs, searchTerm, sortConfig]);
-
-  // Render sort indicator
-  const SortIndicator = ({ columnKey }) => {
-    if (sortConfig.key !== columnKey) {
-      return <ChevronUp className="w-4 h-4 text-purple-400/40" />;
-    }
-    return sortConfig.direction === "asc" ? (
-      <ChevronUp className="w-4 h-4 text-purple-400" />
-    ) : (
-      <ChevronDown className="w-4 h-4 text-purple-400" />
-    );
-  };
+  // Filter documents for client only
+  const clientDocs = useMemo(() => {
+    return user.docs.filter((doc) => doc.forClient === "true");
+  }, [user.docs]);
 
   return (
-    <div className="p-6 w-full mx-auto  ">
+    <div className="p-6 w-full mx-auto bg-[#1A114A]">
       <h3 className="font-[700] text-2xl sm:text-3xl md:text-4xl lg:text-[48px] text-start py-8 bg-gradient-to-b from-[#F6F6F7] to-[#7E808F] bg-clip-text text-transparent">
         Document History
       </h3>
 
       <div className="space-y-12">
-        {/* Personal Docs */}
-        <DocsForUser />
+        {/* Search bar */}
+        {/* <div className="relative">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none ">
+            <Search className="h-5 w-5 text-gray-400" />
+          </div>
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search documents..."
+            className="pl-10 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gradient-to-br from-indigo-800 to-indigo-900 text-white"
+          />
+        </div> */}
 
         {/* Documents shared for clients */}
-        <DocsForClient />
+        <DocsForClient 
+          documents={clientDocs.filter(doc => 
+            doc.docName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            doc.date?.toLowerCase().includes(searchTerm.toLowerCase())
+          )} 
+        />
       </div>
     </div>
   );

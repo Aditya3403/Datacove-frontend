@@ -18,14 +18,15 @@ import { FolderOpenDot } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
-const API_PRODUCTION_URL = "http://localhost:5000";
+import useSidebarStore from "../store/useSidebarStore";
+
+const API_PRODUCTION_URL = "http://localhost:3000";
 
 const SideBar = ({ username }) => {
   const [activeIndex, setActiveIndex] = useState("");
   const [isHistoryOpen, setHistoryOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const profileMenuRef = useRef(null);
   const sidebarRef = useRef(null);
   const location = useLocation();
@@ -37,20 +38,18 @@ const SideBar = ({ username }) => {
   const isAnalytics = currentPath.includes("/analytics");
   const isSettings = currentPath.includes("/settings");
 
+  const { isMobile, isMobileMenuOpen, closeMobileMenu } = useSidebarStore();
   const { user, logout } = useAppStore();
   const nameParts = user?.displayName?.split(" ") || ["User", "Name"];
   const initials = (
     nameParts[0][0] + (nameParts[1] ? nameParts[1][0] : "")
   ).toUpperCase();
 
-  // Check if screen is mobile size
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1280);
-
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 1280);
+      useSidebarStore.getState().setIsMobile(window.innerWidth < 1280);
       if (window.innerWidth >= 1280) {
-        setIsMobileMenuOpen(false);
+        closeMobileMenu();
       }
     };
 
@@ -58,7 +57,7 @@ const SideBar = ({ username }) => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [closeMobileMenu]);
 
   const handleInvite = async () => {
     if (!email) {
@@ -101,7 +100,7 @@ const SideBar = ({ username }) => {
         !sidebarRef.current.contains(event.target) &&
         event.target.closest(".mobile-menu-toggle") === null
       ) {
-        setIsMobileMenuOpen(false);
+        closeMobileMenu(); // Use closeMobileMenu from Zustand store
       }
     }
 
@@ -109,16 +108,11 @@ const SideBar = ({ username }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [profileMenuRef, isMobile]);
+  }, [profileMenuRef, isMobile, closeMobileMenu]);
 
   // Toggle profile menu
   const toggleProfileMenu = () => {
     setIsProfileMenuOpen(!isProfileMenuOpen);
-  };
-
-  // Toggle mobile menu
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   // Main sidebar content
@@ -126,17 +120,18 @@ const SideBar = ({ username }) => {
     <div className="flex flex-col h-full w-full">
       <div className="flex flex-col justify-between min-h-full p-2">
         <nav className="space-y-1 px-1 lg:px-2 pt-1 lg:pt-2">
-          <NavLink
-            to={`/dashboard/${user?.name}`}
-            className={({ isActive }) =>
-              isActive
-                ? "block p-1.5 lg:p-2 bg-blue-600 rounded text-sm lg:text-base"
-                : "block p-1.5 lg:p-2 rounded hover:bg-blue-500 text-sm lg:text-base"
-            }
-            onClick={() => isMobile && setIsMobileMenuOpen(false)}
-          >
-            Dashboard
-          </NavLink>
+        <NavLink
+          to={`/dashboard/${user?.name}`}
+          end  // This ensures it only matches exactly
+          className={({ isActive }) =>
+            isActive
+              ? "block p-1.5 lg:p-2 bg-blue-600 rounded text-sm lg:text-base"
+              : "block p-1.5 lg:p-2 rounded hover:bg-blue-500 text-sm lg:text-base"
+          }
+          onClick={() => isMobile && closeMobileMenu()}
+        >
+          Dashboard
+        </NavLink>
 
           <NavLink
             to={`/dashboard/${user?.name}/workflows`}
@@ -145,7 +140,7 @@ const SideBar = ({ username }) => {
                 ? "block p-1.5 lg:p-2 bg-blue-600 rounded text-sm lg:text-base"
                 : "block p-1.5 lg:p-2 hover:bg-blue-500 rounded text-sm lg:text-base"
             }
-            onClick={() => isMobile && setIsMobileMenuOpen(false)}
+            onClick={() => isMobile && closeMobileMenu()}
           >
             My Workflows
           </NavLink>
@@ -157,7 +152,7 @@ const SideBar = ({ username }) => {
                 ? "block p-1.5 lg:p-2 bg-blue-600 rounded text-sm lg:text-base"
                 : "block p-1.5 lg:p-2 hover:bg-blue-500 rounded text-sm lg:text-base"
             }
-            onClick={() => isMobile && setIsMobileMenuOpen(false)}
+            onClick={() => isMobile && closeMobileMenu()}
           >
             Recent Reports
           </NavLink>
@@ -169,7 +164,7 @@ const SideBar = ({ username }) => {
                 ? "block p-1.5 lg:p-2 bg-blue-600 rounded text-sm lg:text-base"
                 : "block p-1.5 lg:p-2 hover:bg-blue-500 rounded text-sm lg:text-base"
             }
-            onClick={() => isMobile && setIsMobileMenuOpen(false)}
+            onClick={() => isMobile && closeMobileMenu()}
           >
             Analytics
           </NavLink>
@@ -181,9 +176,42 @@ const SideBar = ({ username }) => {
                 ? "block p-1.5 lg:p-2 bg-blue-600 rounded text-sm lg:text-base"
                 : "block p-1.5 lg:p-2 hover:bg-blue-500 rounded text-sm lg:text-base"
             }
-            onClick={() => isMobile && setIsMobileMenuOpen(false)}
+            onClick={() => isMobile && closeMobileMenu()}
           >
             Settings
+          </NavLink>
+          <NavLink
+            to={`/dashboard/${user?.name}/chat/client`}
+            className={({ isActive }) =>
+              isActive
+                ? "block p-1.5 lg:p-2 bg-blue-600 rounded text-sm lg:text-base"
+                : "block p-1.5 lg:p-2 hover:bg-blue-500 rounded text-sm lg:text-base"
+            }
+            onClick={() => isMobile && closeMobileMenu()}
+          >
+            Invitations
+          </NavLink>
+          <NavLink
+            to={`/dashboard/${user?.name}/consultants/docs`}
+            className={({ isActive }) =>
+              isActive
+                ? "block p-1.5 lg:p-2 bg-blue-600 rounded text-sm lg:text-base"
+                : "block p-1.5 lg:p-2 hover:bg-blue-500 rounded text-sm lg:text-base"
+            }
+            onClick={() => isMobile && closeMobileMenu()}
+          >
+            Consultants
+          </NavLink>
+          <NavLink
+            to={`/dashboard/${user?.name}/client/docs`}
+            className={({ isActive }) =>
+              isActive
+                ? "block p-1.5 lg:p-2 bg-blue-600 rounded text-sm lg:text-base"
+                : "block p-1.5 lg:p-2 hover:bg-blue-500 rounded text-sm lg:text-base"
+            }
+            onClick={() => isMobile && closeMobileMenu()}
+          >
+            Clients
           </NavLink>
         </nav>
 
@@ -212,7 +240,7 @@ const SideBar = ({ username }) => {
           <div className="flex items-center gap-1 lg:gap-2 text-white/80 hover:text-white border border-white/10 p-2 lg:p-3 rounded-lg hover:bg-white/5 transition-colors mb-3 lg:mb-3 mx-1 lg:mx-2">
             <Link
               to={`/dashboard/${user?.name}/reports/report`}
-              onClick={() => isMobile && setIsMobileMenuOpen(false)}
+              onClick={() => isMobile && closeMobileMenu()}
             >
               <button className="flex items-center gap-1 lg:gap-2 text-xs lg:text-sm">
                 Reports
@@ -224,7 +252,7 @@ const SideBar = ({ username }) => {
             <div className="flex items-center gap-1 lg:gap-2 text-white/80 hover:text-white border border-white/10 p-2 lg:p-3 rounded-lg hover:bg-white/5 transition-colors mb-3 lg:mb-3 mx-1 lg:mx-2">
               <Link
                 to={`/dashboard/${user?.name}/project/projects`}
-                onClick={() => isMobile && setIsMobileMenuOpen(false)}
+                onClick={() => isMobile && closeMobileMenu()}
               >
                 <button className="flex items-center gap-1 lg:gap-2 text-xs lg:text-sm">
                   Projects{" "}
@@ -269,7 +297,7 @@ const SideBar = ({ username }) => {
                   <Link
                     to={`/dashboard/${user?.name}/history/documents`}
                     className="flex items-center gap-1 lg:gap-2"
-                    onClick={() => isMobile && setIsMobileMenuOpen(false)}
+                    onClick={() => isMobile && closeMobileMenu()}
                   >
                     <FileClock className="h-4 w-4 lg:h-5 lg:w-5 text-blue-600" />{" "}
                     Docs History
@@ -281,7 +309,7 @@ const SideBar = ({ username }) => {
                 <Link
                   to={`/dashboard/${user?.name}/history/notes`}
                   className="flex items-center gap-1 lg:gap-2"
-                  onClick={() => isMobile && setIsMobileMenuOpen(false)}
+                  onClick={() => isMobile && closeMobileMenu()}
                 >
                   <NotebookPen className="h-4 w-4 lg:h-5 lg:w-5 text-blue-600" />{" "}
                   Notes History
@@ -330,22 +358,12 @@ const SideBar = ({ username }) => {
                       {user?.email || "user@example.com"}
                     </div>
                   </div>
-                  {/* <Link
-                    to={`/dashboard/${user?.name}/plans`}
-                    className="block mt-1 lg:mt-2 p-1.5 lg:p-2 hover:bg-indigo-700 rounded-lg transition-colors text-xs lg:text-sm"
-                    onClick={() => {
-                      setIsProfileMenuOpen(false);
-                      isMobile && setIsMobileMenuOpen(false);
-                    }}
-                  >
-                    Plans
-                  </Link> */}
                   <Link
                     to={`/dashboard/${user?.name}/settings`}
                     className="block p-1.5 lg:p-2 rounded-lg hover:bg-indigo-700 transition-colors text-xs lg:text-sm"
                     onClick={() => {
                       setIsProfileMenuOpen(false);
-                      isMobile && setIsMobileMenuOpen(false);
+                      isMobile && closeMobileMenu();
                     }}
                   >
                     Settings
@@ -354,7 +372,7 @@ const SideBar = ({ username }) => {
                     onClick={() => {
                       logout();
                       setIsProfileMenuOpen(false);
-                      isMobile && setIsMobileMenuOpen(false);
+                      isMobile && closeMobileMenu();
                     }}
                     className="w-full text-left p-1.5 lg:p-2 text-red-400 rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-1 lg:gap-2 text-xs lg:text-sm"
                   >
@@ -369,47 +387,26 @@ const SideBar = ({ username }) => {
     </div>
   );
 
-  // Mobile menu toggle button
-  const mobileMenuToggle = (
-    <button
-      className="mobile-menu-toggle relative top-3 left-4 z-50 p-2 bg-indigo-800 rounded-full shadow-lg"
-      onClick={toggleMobileMenu}
-      aria-label="Toggle menu"
-    >
-      {isMobileMenuOpen ? (
-        <X className="w-6 h-6 text-white" />
-      ) : (
-        <Menu className="w-6 h-6 text-white" />
-      )}
-    </button>
-  );
-
   return (
     <>
-      {/* Mobile menu toggle */}
-      {isMobile && mobileMenuToggle}
-
       {/* Sidebar for desktop */}
-      <div
-        className={`h-full w-full bg-[#1A114A] flex flex-col flex-grow transition-all duration-300
-          ${isMobile ? "hidden" : "flex"}`}
-      >
-        {sidebarContent}
-      </div>
+      {!isMobile && (
+        <div className="h-full w-full bg-[#1A114A] flex flex-col">
+          {sidebarContent}
+        </div>
+      )}
 
       {/* Mobile sidebar overlay */}
-      {isMobile && (
+      {isMobile && isMobileMenuOpen && (
         <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-black bg-opacity-50 z-40"
-              onClick={() => setIsMobileMenuOpen(false)}
-            />
-          )}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black bg-opacity-50 z-40"
+            onClick={closeMobileMenu}
+          />
         </AnimatePresence>
       )}
 
@@ -425,6 +422,16 @@ const SideBar = ({ username }) => {
               transition={{ type: "spring", damping: 25, stiffness: 250 }}
               className="fixed top-0 left-0 h-full w-3/4 max-w-xs bg-[#1A114A] flex flex-col border-r border-indigo-800 z-50 pt-14"
             >
+              {/* Cross icon to close the sidebar */}
+              <button
+                className="absolute top-4 right-4 p-2 text-white rounded-full"
+                onClick={closeMobileMenu}
+                aria-label="Close menu"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              {/* Sidebar content */}
               {sidebarContent}
             </motion.div>
           )}

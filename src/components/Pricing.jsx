@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect,useContext } from "react";
 import Data from "../Data/PricingData";
 import check from "../assets/tick.png";
 import price_icon from "../assets/price-icon.png";
@@ -6,10 +6,34 @@ import shape from "../assets/shape.png";
 import cloud from "../assets/cloud.png";
 import hero from "../assets/hero-bg.png";
 import Footer from "../Footer/Footer";
+import { AppContext } from "../context/AppContext";
+import SignUpPage from "../Pages/SignUpPage"; // Import the SignUpPage component
+import useAppStore from "../store/useAppStore";
+import { useNavigate } from "react-router-dom";
 
 const Pricing = () => {
+  const { user } = useContext(AppContext); // Get user from context
+
+  const { 
+    isSignUpOpen, 
+    openSignUp, 
+    closeSignUp,
+    isCheckingAuth
+  } = useAppStore();
+  const navigate = useNavigate();
+
+  const handleGetStarted = () => {
+    if (user) {
+      navigate('/dashboard'); // Redirect logged-in users immediately
+    } else {
+      openSignUp(); // Only open signup for non-logged-in users
+    }
+  };
+
   return (
     <div className="home-container">
+      {/* Show SignUpPage popup if not logged in and modal is open */}
+      {!user && isSignUpOpen && <SignUpPage />}
       <img
         src={hero}
         alt=""
@@ -93,7 +117,10 @@ const Pricing = () => {
                   "linear-gradient(195.05deg, rgba(163, 43, 255, 0.1) 0%, rgba(248, 43, 255, 0.02) 50%, rgba(153, 43, 255, 0.06) 100%)",
               }}
             >
-              <button className="text-center p-2  transition duration-300 ease-in-out w-full hover:bg-[#7214FF] rounded-lg">
+              <button 
+                onClick={handleGetStarted}
+                className="text-center p-2  transition duration-300 ease-in-out w-full hover:bg-[#7214FF] rounded-lg"
+              >
                 Get Started
               </button>
             </div>
@@ -135,11 +162,14 @@ const Pricing = () => {
                   Customized Pricing
                 </h2>
                 <p className="text-[10px] sm:text-sm md:text-base mt-2 text-[#8F9BB7]">
-                  Not getting what you’re looking for? Contact us and get your
+                  Not getting what you're looking for? Contact us and get your
                   <br />
                   own customized pricing plan
                 </p>
-                <button className="bg-[#5865F2] px-4 py-2 sm:px-6 sm:py-3 md:pl-6 md:pr-6 md:pt-3 md:pb-3 rounded-2xl text-[10px] sm:text-[12px] md:text-sm mt-4 md:mt-5">
+                <button 
+                  onClick={handleGetStarted}
+                  className="bg-[#5865F2] px-4 py-2 sm:px-6 sm:py-3 md:pl-6 md:pr-6 md:pt-3 md:pb-3 rounded-2xl text-[10px] sm:text-[12px] md:text-sm mt-4 md:mt-5"
+                >
                   Book A Demo
                 </button>
               </div>
@@ -153,5 +183,3 @@ const Pricing = () => {
 };
 
 export default Pricing;
-
-// #1a1e38

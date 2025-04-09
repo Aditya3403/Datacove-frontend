@@ -1,11 +1,21 @@
-import { create } from 'zustand'; // Use named import for 'create'
+import { create } from 'zustand';
 
-const useAppStore = create((set) => ({
-  user: null, // Existing user state
-  isSidebarOpen: false, // New state for sidebar
-  toggleSidebar: () => set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
-  setUser: (user) => set({ user }), // Example of how to set the user
-  logout: () => set({ user: null }), // Example of how to log out the user
+const useSidebarStore = create((set) => ({
+  isMobile: window.innerWidth < 1280,
+  isMobileMenuOpen: false,
+  setIsMobile: (isMobile) => set({ isMobile }),
+  toggleMobileMenu: () => set((state) => ({ isMobileMenuOpen: !state.isMobileMenuOpen })),
+  closeMobileMenu: () => set({ isMobileMenuOpen: false }), // Function to close the sidebar
 }));
 
-export default useAppStore;
+// Add resize listener to update isMobile state
+if (typeof window !== 'undefined') {
+  window.addEventListener('resize', () => {
+    useSidebarStore.getState().setIsMobile(window.innerWidth < 1280);
+    if (window.innerWidth >= 1280) {
+      useSidebarStore.getState().closeMobileMenu();
+    }
+  });
+}
+
+export default useSidebarStore;

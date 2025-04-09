@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 const AcceptInvitation = () => {
   const [searchParams] = useSearchParams();
@@ -10,6 +12,7 @@ const AcceptInvitation = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -19,10 +22,10 @@ const AcceptInvitation = () => {
     async function fetchInvitation() {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/v1/dashboard/fetch-invitation?token=${token}`
+          `http://localhost:3000/api/v1/dashboard/fetch-invitation?token=${token}`
         );
+        console.log("Response is", res);
         const inviteeEmail = res.data.invitation.email;
-        // console.log("ACCEPT", res.data.invitation);
         setEmail(inviteeEmail);
       } catch (err) {
         setError("Invalid or expired invitation.");
@@ -42,12 +45,13 @@ const AcceptInvitation = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/v1/dashboard/accept-invitation",
+        "http://localhost:3000/api/v1/dashboard/accept-invitation",
         {
           token,
           email,
           name,
           password,
+          phoneNumber,
         }
       );
 
@@ -65,6 +69,7 @@ const AcceptInvitation = () => {
   return (
     <div
       style={{
+        height:"100%",
         maxWidth: "400px",
         margin: "auto",
         padding: "20px",
@@ -92,6 +97,15 @@ const AcceptInvitation = () => {
             required
             className="w-full p-3 border border-violet-400/20 rounded-xl bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-violet-400/40 focus:ring-1 focus:ring-violet-400/40 transition-all duration-200"
           />
+          <PhoneInput
+            country={'ca'}
+            value={phoneNumber}
+            onChange={setPhoneNumber}
+            inputClass="!w-full !h-[52px] !pl-14 !pr-3 !border !border-violet-400/20 !rounded-xl !bg-white/5 !text-white !placeholder-gray-400 !focus:outline-none !focus:border-violet-400/40 !focus:ring-1 !focus:ring-violet-400/40 !transition-all !duration-200 !scrollbar-none"
+            containerClass="!w-full"
+            buttonClass="!bg-transparent !border-none !absolute !left-3 !top-1/2 !transform !-translate-y-1/2 !scale-125"
+            dropdownClass="!text-left !bg-black !border !border-violet-400/20 !rounded-xl !text-white !shadow-lg !max-h-60 !overflow-y-auto !scrollbar-none"
+          />        
           <input
             type="password"
             placeholder="Create a password"
